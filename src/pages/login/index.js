@@ -14,10 +14,13 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import theme from '@/styles/theme';
+import Alert from '@mui/material/Alert';
 
 export default function SignInSide() {
   const [error, setError] = useState('');
-  const apiUrl = 'http://localhost:8089/signin'; // Endpoint da sua API de login
+  const [success, setSuccess] = useState(false);
+  const [apiResponse, setApiResponse] = useState('');
+  const apiUrl = 'http://localhost:8089/signin';
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -26,23 +29,41 @@ export default function SignInSide() {
     const password = formData.get('password');
 
     try {
-      const response = await axios.post(apiUrl, { email, password });
-      const { redirect, userData } = response.data;
+      const response = await axios.post(apiUrl, {
+        email,
+        password,
+      });
 
-      alert(console.log("kkkkkkkkkkkkkkkkk"))
-      if (redirect) {
-        window.location.href = redirect; // Redireciona para a página indicada pela API
-      } else {
-        console.log('Login successful:', userData);
+      setApiResponse(response.data.message);
+
+      if ((response.status == 200)) {
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess(false);
+          window.location.href = '/feed';
+        }, 1000);
       }
     } catch (error) {
-      console.error('Login error:', error);
-      setError('Erro ao fazer login. Verifique suas credenciais.');
+      setApiResponse(error.response.data.message)
+      setError(apiResponse);
     }
   };
 
   return (
     <ThemeProvider theme={theme}>
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: '#56AE7E',
+          opacity: 0.1,
+          borderRadius: '8px 0 0 8px',
+          zIndex: -1,
+        }}
+      />
       <Container component="main" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <CssBaseline />
         <Grid container spacing={0} alignItems="stretch" sx={{height: "70vh"}}>
@@ -60,17 +81,15 @@ export default function SignInSide() {
                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                 height: '100%',
                 textAlign: 'center',
+                backgroundImage: 'url(/impress/EstampaOpacity01PNG.png)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
               }}
             >
-
-            <img src="/fierce-dog.jpg" alt="Descrição da primeira imagem" style={{ width: '150px', height: '150px'}} />
-
-            <img src="/image.png" alt="Descrição da segunda imagem" style={{ width: '100px', height: '100px'}} />
-
-
+              <img src="/logo/Logo - Horizontal - Com cor.png" alt="logo" style={{ width: '300px', height: 'auto'}} />
 
               <Typography variant="body1" component="div" sx={{ fontSize: '15px' }}>
-                Estamos animados em recebê-lo à comunidade PetWhere/Fujões, uma rede social exclusiva para aqueles que compartilham o amor pelos seus amigos peludos. Aqui, você pode não apenas compartilhar momentos especiais com seus animais de estimação, mas também encontrar apoio em momentos desafiadores, como quando seu amiguinho de quatro patas decide se aventurar por conta própria.
+                Estamos animados em recebê-lo à comunidade Fujões, uma rede social exclusiva para aqueles que compartilham o amor pelos seus amigos peludos. Aqui, você pode não apenas compartilhar momentos especiais com seus animais de estimação, mas também encontrar apoio em momentos desafiadores, como quando seu amiguinho de quatro patas decide se aventurar por conta própria.
               </Typography>
             </Box>
           </Grid>
@@ -88,9 +107,8 @@ export default function SignInSide() {
                 height: '100%',
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: 'secondary.main'}}>
-                <PetsIcon />
-              </Avatar>
+              <img src="/logo/Símbolo - Png - Com cor .png" alt="mini logo" style={{ width: '50px', height: 'auto'}} />
+
               <Typography component="h1" variant="h5">
                 Login
               </Typography>
@@ -147,7 +165,7 @@ export default function SignInSide() {
 
                 <Grid container alignItems="center" justifyContent="center">
                   <Grid item>
-                    <Link href="#" variant="body2">
+                    <Link href="/register" variant="body2">
                       {"Não possui uma conta? Cadatre-se"}
                     </Link>
                   </Grid>
@@ -157,6 +175,16 @@ export default function SignInSide() {
           </Grid>
         </Grid>
       </Container>
+      {success && (
+        <Alert severity="success" sx={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)' }}>
+          {apiResponse}
+        </Alert>
+      )}
+      {error && (
+        <Alert severity="error" sx={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)' }}>
+          {apiResponse}
+        </Alert>
+      )}
     </ThemeProvider>
   );
 }
