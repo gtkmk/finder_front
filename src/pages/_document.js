@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { Html, Head, Main, NextScript } from 'next/document';
-import {
-  DocumentHeadTags,
-  documentGetInitialProps,
-} from '@mui/material-nextjs/v14-pagesRouter';
+import { DocumentHeadTags, documentGetInitialProps } from '@mui/material-nextjs/v14-pagesRouter';
 import theme from '@/styles/theme';
 
 export default function MyDocument(props) {
@@ -14,6 +11,9 @@ export default function MyDocument(props) {
         <meta name="theme-color" content={theme.palette.primary.main} />
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta name="emotion-insertion-point" content="" />
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Inder&display=swap');
+        `}</style>
         <DocumentHeadTags {...props} />
       </Head>
       <body>

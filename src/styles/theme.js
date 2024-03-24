@@ -4,9 +4,9 @@ const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#DB3725',
-      light: '#EA695B',
-      dark: '#B21F13',
+      main: '#408080',
+      light: '#71b0b0',
+      dark: '#366161',
     },
     secondary: {
       main: '#30718D',
@@ -17,6 +17,15 @@ const theme = createTheme({
       secondary: '#667982',
       disabled: '#667982',
     },
+    background: {
+      default: '#2F2F2F',
+    },
+    a: {
+      color: '#007bff !important',
+    },
+  },
+  typography: {
+    fontFamily: '"Inder", sans-serif',
   },
   components: {
     MuiButton: {

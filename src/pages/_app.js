@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }) {
     <AppCacheProvider {...pageProps}>
       <Head />
       <ThemeProvider theme={theme}>
-        <CssBaseline />
+        <CssBaseline/>
         <Component {...pageProps} />
       </ThemeProvider>
     </AppCacheProvider>
