@@ -117,7 +117,7 @@ export default function SignInSide() {
       />
       <Container component="main" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <CssBaseline />
-        <Grid container spacing={0} alignItems="stretch" sx={{height: "70vh"}}>
+        <Grid container spacing={0} alignItems="stretch" sx={{height: "70vh",  borderRadius: '8px', boxShadow: 'rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px'}}>
           <Grid item xs={2}>
             <Box
               sx={{
