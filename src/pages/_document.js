@@ -10,6 +10,10 @@ export default function MyDocument(props) {
         {/* PWA primary color */}
         <meta name="theme-color" content={theme.palette.primary.main} />
         <link rel="shortcut icon" href="/favicon.ico" />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        />
         <meta name="emotion-insertion-point" content="" />
         <style>{`
           @import url('https://fonts.googleapis.com/css2?family=Inder&display=swap');
