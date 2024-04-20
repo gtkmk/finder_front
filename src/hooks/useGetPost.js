@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export const useGetPosts = () => {
   const [postsData, setPostsData] = useState([]);
@@ -9,14 +10,11 @@ export const useGetPosts = () => {
       const response = await axios.get("http://localhost:8089/posts?page=1", {
         withCredentials: true,
       });
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
-      const data = await response.json();
-      const { posts } = data.data;
+
+      const { posts } = response.data.data;
       setPostsData(posts.data);
     } catch (error) {
-      console.error("Error fetching posts:", error);
+      toast.error("Error fetching posts");
     }
   };
 
