@@ -97,7 +97,7 @@ export default function Feed() {
                 variant="outlined"
                 size="small"
                 onKeyDown={(e) => {
-                  if (e.key === "Enter" && e.target.value.trim()) {
+                  if (e.key === "Enter") {
                     handleAddComment(post.post_id, e.target.value.trim());
                     e.target.value = "";
                   }
