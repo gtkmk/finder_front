@@ -32,7 +32,6 @@ export const useSignInHandler = () => {
         setTimeout(timeOutCallback, 1000);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.response?.data.message);
     }
   };
