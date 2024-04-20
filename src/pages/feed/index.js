@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -21,40 +21,27 @@ import Menu from '../../components/menu/index';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 
-const postsData = [
-  {
-    post_id: 1,
-    post_author: 'John Doe',
-    post_author_avatar: '/avatars/avatar1.jpg',
-    post_location: 'Belo Horizonte, Cidade Nova',
-    text: 'Amazing day at the beach! 🌊☀️',
-    post_reward: true,
-    privacy: 'public',
-    post_category: 'default',
-    post_lostFound: 'lost',
-    post_media: '/images/post1.jpg',
-    likes: 15,
-    shares: 5,
-    comments: 2,
-  },
-  {
-    post_id: 2,
-    post_author: 'John Doe',
-    post_author_avatar: '/avatars/avatar1.jpg',
-    post_location: 'Belo Horizonte, Cidade Nova',
-    text: 'Amazing day at the hotspring! 🌊☀️',
-    post_reward: true,
-    privacy: 'public',
-    post_category: 'default',
-    post_lostFound: 'found',
-    post_media: '/images/post1.jpg',
-    likes: 50,
-    shares: 10,
-    comments: 23,
-  }
-];
-
 export default function Feed() {
+  const [postsData, setPostsData] = useState([]);
+
+  useEffect(() => {
+    fetchPostsData();
+  }, []);
+
+  const fetchPostsData = async () => {
+    try {
+      const response = await fetch('http://localhost:8089/posts?page=1');
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      const data = await response.json();
+      const { posts } = data.data;
+      setPostsData(posts.data);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
+  };
+
   const [comments, setComments] = useState([]);
   const handleAddComment = (postId, commentText) => {
     setComments(prevComments => [
@@ -68,7 +55,7 @@ export default function Feed() {
       {/* <Menu /> */}
       <Container maxWidth="sm">
         {postsData.map(post => (
-          <Card key={post.post_id} sx={{ my: 2, backgroundColor: '#3D3D3D !important' }}>
+          <Card key={post.post_id} sx={{ my: 2, backgroundColor: 'white !important' }}>
             <CardHeader
               post_author_avatar={<Avatar alt={post.post_author} src={post.post_author_avatar} />}
               title={post.post_author}
