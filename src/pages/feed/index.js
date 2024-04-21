@@ -16,10 +16,20 @@ import Container from "@mui/material/Container";
 import Image from "next/image";
 import { useGetPosts } from "@/hooks/useGetPost";
 import { useHandleComments } from "@/hooks/useHandleComments";
+import CommentList from "@/components/commentList";
 
 export default function Feed() {
   const { postsData } = useGetPosts();
   const { comments, handleAddComment } = useHandleComments();
+
+  const handleLikeComment = (index) => {
+    const updatedComments = [...comments];
+    updatedComments[index].liked = !updatedComments[index].liked;
+    updatedComments[index].likes = updatedComments[index].liked
+      ? updatedComments[index].likes + 1
+      : updatedComments[index].likes - 1;
+    setComments(updatedComments);
+  };
 
   return (
     <div>
@@ -81,6 +91,12 @@ export default function Feed() {
               <Typography variant="body2" color="text.secondary">
                 {post.comments} Comentários
               </Typography>
+              <CommentList
+                postId={post.post_id}
+                comments={post.comments}
+                onLikeComment={handleLikeComment}
+                onAddComment={handleAddComment}
+              />
               <IconButton aria-label="comment">
                 <SendIcon />
               </IconButton>

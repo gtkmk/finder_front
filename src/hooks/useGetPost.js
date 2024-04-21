@@ -5,6 +5,10 @@ import { toast } from "react-toastify";
 export const useGetPosts = () => {
   const [postsData, setPostsData] = useState([]);
 
+  const timeOutCallback = () => {
+    window.location.href = "/login";
+  };
+
   const fetchPostsData = async () => {
     try {
       const response = await axios.get("http://localhost:8089/posts?page=1", {
@@ -13,8 +17,14 @@ export const useGetPosts = () => {
 
       const { posts } = response.data.data;
       setPostsData(posts.data);
+      console.log(posts)
     } catch (error) {
-      toast.error("Error fetching posts");
+      if (error.response.status == 401) {
+        toast.error("Falha na autenticação. Tente fazer login novamente.");
+        setTimeout(timeOutCallback, 1000);
+      }
+
+      toast.error("Algo deu errado. Tente novamente mais tarde.");
     }
   };
 
