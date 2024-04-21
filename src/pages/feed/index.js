@@ -16,8 +16,8 @@ import Container from '@mui/material/Container'
 import Image from 'next/image'
 import { useGetPosts } from '@/hooks/useGetPost'
 import { useHandleComments } from '@/hooks/useHandleComments'
-import FeedImageBase64 from '../../components/FeedImageBase64';
-import AvatarImageBase64 from '../../components/AvatarImageBase64';
+import FeedImage from '../../components/FeedImage';
+import AvatarImage from '../../components/AvatarImage';
 
 export default function Feed() {
   const { postsData } = useGetPosts()
@@ -36,7 +36,7 @@ export default function Feed() {
           >
             <CardHeader
               avatar={
-                <AvatarImageBase64 mediaUrl={post.post_author_avatar} />
+                <AvatarImage mediaUrl={post.post_author_avatar} />
               }
               title={post.post_author}
               subheader={post.post_location}
@@ -66,7 +66,7 @@ export default function Feed() {
                 {post.text}
               </Typography>
             </CardContent>
-            <FeedImageBase64 mediaUrl={post.post_media} />
+            <FeedImage mediaUrl={post.post_media} />
             <CardActions disableSpacing>
               <IconButton aria-label="like">
                 <KeyboardDoubleArrowUpIcon />
