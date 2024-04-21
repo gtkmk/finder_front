@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useImageBase64 } from '@/hooks/useImageBase64';
+import Avatar from '@mui/material/Avatar'
 import { CardMedia } from '@mui/material';
 
-const ImageBase64 = ({ mediaUrl }) => {
+const AvatarImageBase64 = ({ mediaUrl }) => {
   const imageBase64 = useImageBase64(mediaUrl);
 
   return (
     <div>
       {imageBase64 ? (
-        <CardMedia 
-            component="img"
-            height="auto"
-            image={`data:image/jpeg;base64,${imageBase64}`}
+        <Avatar  
             alt="Loading..."
+            src={`data:image/jpeg;base64,${imageBase64}`}
         />
       ) : (
         <h1>Loading...</h1>
@@ -21,4 +20,4 @@ const ImageBase64 = ({ mediaUrl }) => {
   );
 };
 
-export default ImageBase64;
+export default AvatarImageBase64;
