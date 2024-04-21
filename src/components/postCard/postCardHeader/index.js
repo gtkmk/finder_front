@@ -2,7 +2,7 @@ import { Base64Image } from '@/components/Image'
 import { CardHeader } from '@mui/material'
 import Image from 'next/image'
 
-export const PostHeader = ({
+export const PostCardHeader = ({
   post_author_avatar,
   post_author,
   post_location,

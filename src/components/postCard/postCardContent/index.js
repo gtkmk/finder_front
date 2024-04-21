@@ -3,7 +3,7 @@ import { CardContent, Divider, TextField, Typography } from '@mui/material'
 import { PostCardActions } from '../postCardActions'
 import { useHandleComments } from '@/hooks/useHandleComments'
 
-export const PostContent = ({ post }) => {
+export const PostCardContent = ({ post }) => {
   const { comments, handleAddComment } = useHandleComments()
   return (
     <>

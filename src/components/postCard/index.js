@@ -1,22 +1,21 @@
 import { Card } from '@mui/material'
-import { PostHeader } from './postHeader'
-import { useHandleComments } from '@/hooks/useHandleComments'
-import { PostContent } from './postContent'
+import { PostCardHeader } from './postCardHeader'
+import { PostCardContent } from './postCardContent'
 
-export const Post = ({ post }) => {
+export const PostCard = ({ post }) => {
   return (
     <Card
       key={post.post_id}
       sx={{ my: 2, backgroundColor: 'white !important' }}
     >
-      <PostHeader
+      <PostCardHeader
         post_author={post.post_author}
         post_author_avatar={post.post_author_avatar}
         post_location={post.post_location}
         post_lostFound={post.post_lostFound}
         post_reward={post.post_reward}
       />
-      <PostContent post={post} />
+      <PostCardContent post={post} />
     </Card>
   )
 }
