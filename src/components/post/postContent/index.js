@@ -1,6 +1,6 @@
 import { Base64Image } from '@/components/Image'
 import { CardContent, Divider, TextField, Typography } from '@mui/material'
-import { PostActions } from '../postActions'
+import { PostCardActions } from '../postCardActions'
 import { useHandleComments } from '@/hooks/useHandleComments'
 
 export const PostContent = ({ post }) => {
@@ -20,7 +20,7 @@ export const PostContent = ({ post }) => {
       >
         <Base64Image mediaUrl={post.post_media} type="post" />
       </CardContent>
-      <PostActions
+      <PostCardActions
         comments={comments}
         likes={post.likes}
         shares={post.shares}

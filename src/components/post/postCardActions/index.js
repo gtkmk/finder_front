@@ -3,7 +3,7 @@ import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp
 import SendIcon from '@mui/icons-material/Send'
 import ChatIcon from '@mui/icons-material/Chat'
 
-export const PostActions = ({ likes, comments, shares }) => {
+export const PostCardActions = ({ likes, comments, shares }) => {
   return (
     <CardActions disableSpacing>
       <IconButton aria-label="like">
