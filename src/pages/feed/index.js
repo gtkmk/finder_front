@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from "react";
-import Avatar from "@mui/material/Avatar";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
-import SendIcon from "@mui/icons-material/Send";
-import ChatIcon from "@mui/icons-material/Chat";
-import TextField from "@mui/material/TextField";
-import Divider from "@mui/material/Divider";
-import Container from "@mui/material/Container";
-import Image from "next/image";
-import { useGetPosts } from "@/hooks/useGetPost";
-import { useHandleComments } from "@/hooks/useHandleComments";
+import React from 'react'
+import Avatar from '@mui/material/Avatar'
+import Card from '@mui/material/Card'
+import CardActions from '@mui/material/CardActions'
+import CardContent from '@mui/material/CardContent'
+import CardHeader from '@mui/material/CardHeader'
+import CardMedia from '@mui/material/CardMedia'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp'
+import SendIcon from '@mui/icons-material/Send'
+import ChatIcon from '@mui/icons-material/Chat'
+import TextField from '@mui/material/TextField'
+import Divider from '@mui/material/Divider'
+import Container from '@mui/material/Container'
+import Image from 'next/image'
+import { useGetPosts } from '@/hooks/useGetPost'
+import { useHandleComments } from '@/hooks/useHandleComments'
 
 export default function Feed() {
-  const { postsData } = useGetPosts();
-  const { comments, handleAddComment } = useHandleComments();
+  const { postsData } = useGetPosts()
+  const { comments, handleAddComment } = useHandleComments()
+
+  console.log(postsData)
 
   return (
     <div>
@@ -28,7 +30,7 @@ export default function Feed() {
         {postsData.map((post) => (
           <Card
             key={post.post_id}
-            sx={{ my: 2, backgroundColor: "white !important" }}
+            sx={{ my: 2, backgroundColor: 'white !important' }}
           >
             <CardHeader
               post_author_avatar={
@@ -46,7 +48,7 @@ export default function Feed() {
                       height={50}
                     />
                   )}
-                  {post.post_lostFound === "lost" && (
+                  {post.post_lostFound === 'lost' && (
                     <Image
                       src="/icons/map_lost2.png"
                       alt="Animal perdido"
@@ -97,9 +99,9 @@ export default function Feed() {
                 variant="outlined"
                 size="small"
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleAddComment(post.post_id, e.target.value.trim());
-                    e.target.value = "";
+                  if (e.key === 'Enter') {
+                    handleAddComment(post.post_id, e.target.value.trim())
+                    e.target.value = ''
                   }
                 }}
               />
@@ -108,5 +110,5 @@ export default function Feed() {
         ))}
       </Container>
     </div>
-  );
+  )
 }

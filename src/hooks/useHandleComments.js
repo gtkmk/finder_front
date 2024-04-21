@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState } from 'react'
 
 export const useHandleComments = () => {
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState([])
 
   const handleAddComment = (postId, commentText) => {
     setComments((prevComments) => [
@@ -9,14 +9,14 @@ export const useHandleComments = () => {
       {
         postId,
         id: prevComments.length + 1,
-        post_author: "You",
+        post_author: 'You',
         text: commentText,
       },
-    ]);
-  };
+    ])
+  }
 
   return {
     comments,
     handleAddComment,
-  };
-};
+  }
+}
