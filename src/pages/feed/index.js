@@ -16,6 +16,7 @@ import Container from '@mui/material/Container'
 import Image from 'next/image'
 import { useGetPosts } from '@/hooks/useGetPost'
 import { useHandleComments } from '@/hooks/useHandleComments'
+import ImageBase64 from '../../components/ImageBase64';
 
 export default function Feed() {
   const { postsData } = useGetPosts()
@@ -64,12 +65,7 @@ export default function Feed() {
                 {post.text}
               </Typography>
             </CardContent>
-            <CardMedia
-              component="img"
-              height="auto"
-              image={post.post_media}
-              alt="Post Image"
-            />
+            <ImageBase64 mediaUrl={post.post_media} />
             <CardActions disableSpacing>
               <IconButton aria-label="like">
                 <KeyboardDoubleArrowUpIcon />
