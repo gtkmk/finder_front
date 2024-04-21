@@ -22,7 +22,8 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.0",
     "react-input-mask": "^2.0.4",
-    "react-toastify": "^10.0.5"
+    "react-toastify": "^10.0.5",
+    "styled-components": "^6.1.8"
   },
   "devDependencies": {
     "eslint": "^8",
