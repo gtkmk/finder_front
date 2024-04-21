@@ -13,7 +13,7 @@ export default function Feed() {
 
   return (
     <div>
-      <Container maxWidth="sm">
+      <Container maxWidth="md">
         {postsData.map((post) => (
           <Post key={post.post_id} post={post} />
         ))}
