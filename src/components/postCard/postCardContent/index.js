@@ -22,6 +22,7 @@ export const PostCardContent = ({ post }) => {
         <Base64Image mediaUrl={post.post_media} type="post" />
       </CardContent>
       <PostCardActions
+        postId={post.post_id}
         comments={post.comments}
         likes={post.likes}
         shares={post.shares}
