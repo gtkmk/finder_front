@@ -16,16 +16,17 @@ export const PostCardContent = ({ post }) => {
         style={{
           justifyContent: 'center',
           display: 'flex',
+          padding: '0',
         }}
       >
         <Base64Image mediaUrl={post.post_media} type="post" />
       </CardContent>
       <PostCardActions
-        comments={comments}
+        comments={post.comments}
         likes={post.likes}
         shares={post.shares}
       />
-      <Divider />
+      {/* <Divider />
       <Divider />
 
       <CardContent>
@@ -41,7 +42,7 @@ export const PostCardContent = ({ post }) => {
             }
           }}
         />
-      </CardContent>
+      </CardContent> */}
     </>
   )
 }
