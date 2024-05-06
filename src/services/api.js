@@ -7,15 +7,12 @@ const api = axios.create({
 api.interceptors.response.use(undefined, function onResponseError(error) {
   const { response } = error
 
-  if (response) {
-    const { status } = response
+  if (!response) throw error
 
-    if (status === 401) {
-      return window.location.replace(`/login`)
-    }
+  const { status } = response
+  if (status === 401) {
+    return window.location.replace(`/login`)
   }
-
-  throw error
 })
 
 export default api

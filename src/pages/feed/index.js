@@ -1,7 +1,7 @@
 import React from 'react'
 import { useGetPosts } from '@/hooks/useGetPost'
 import { useHandleComments } from '@/hooks/useHandleComments'
-import { Post } from '@/components/post'
+import { PostCard } from '@/components/postCard'
 
 // MUI Components
 import Container from '@mui/material/Container'
@@ -15,7 +15,7 @@ export default function Feed() {
     <div>
       <Container maxWidth="md">
         {postsData.map((post) => (
-          <Post key={post.post_id} post={post} />
+          <PostCard key={post.post_id} post={post} />
         ))}
       </Container>
     </div>
