@@ -13,7 +13,7 @@ export default function Feed() {
   return (
     <div>
       <Container maxWidth="md">
-        <CreatePostButton buttonText="Criar Post" />
+        <CreatePostButton buttonText="Criar nova postagem" />
         {postsData.map((post) => (
           <PostCard key={post.post_id} post={post} />
         ))}
