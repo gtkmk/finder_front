@@ -15,35 +15,6 @@ const translateAnimalSize = {
   big: 'Grande',
 };
 
-const renderImageSection = (post_reward, post_lostFound) => (
-  <>
-    {post_reward && (
-      <Image
-        src="/icons/bribe.png"
-        alt="Possui recompensa"
-        width={50}
-        height={50}
-      />
-    )}
-    {post_lostFound === 'lost' && (
-      <Image
-        src="/icons/map_lost2.png"
-        alt="Animal perdido"
-        width={50}
-        height={50}
-      />
-    )}
-    {post_lostFound === 'found' && (
-      <Image
-        src="/icons/map_found2.png"
-        alt="Animal perdido"
-        width={50}
-        height={50}
-      />
-    )}
-  </>
-);
-
 export const PostCardHeader = ({
   post_author_avatar,
   post_author,
@@ -59,10 +30,40 @@ export const PostCardHeader = ({
 
   if (miniature) return (
     <CardHeader
-      avatar={<Base64Image mediaUrl={post_author_avatar} type="avatar" />}
+      avatar={
+        <>
+          {post_lostFound === 'lost' && (
+            <Image
+              src="/icons/map_lost2.png"
+              alt="Animal perdido"
+              width={50}
+              height={50}
+            />
+          )}
+          {post_lostFound === 'found' && (
+            <Image
+              src="/icons/map_found2.png"
+              alt="Animal perdido"
+              width={50}
+              height={50}
+            />
+          )}
+        </>      
+      }
       title={post_location}
       subheader={translatedAnimalType + ' • ' + translatedAnimalSize}
-      action={renderImageSection(post_reward, post_lostFound)}
+      action={
+        <>
+          {post_reward && (
+            <Image
+              src="/icons/bribe.png"
+              alt="Possui recompensa"
+              width={50}
+              height={50}
+            />
+          )}
+        </>
+      }
     />
   )
 
@@ -71,7 +72,34 @@ export const PostCardHeader = ({
       avatar={<Base64Image mediaUrl={post_author_avatar} type="avatar" />}
       title={post_author}
       subheader={post_location + ' • ' + translatedAnimalType + ' • ' + translatedAnimalSize}
-      action={renderImageSection(post_reward, post_lostFound)}
+      action={
+        <>
+          {post_reward && (
+            <Image
+              src="/icons/bribe.png"
+              alt="Possui recompensa"
+              width={50}
+              height={50}
+            />
+          )}
+          {post_lostFound === 'lost' && (
+            <Image
+              src="/icons/map_lost2.png"
+              alt="Animal perdido"
+              width={50}
+              height={50}
+            />
+          )}
+          {post_lostFound === 'found' && (
+            <Image
+              src="/icons/map_found2.png"
+              alt="Animal perdido"
+              width={50}
+              height={50}
+            />
+          )}
+        </>
+      }
     />
   )
 }
