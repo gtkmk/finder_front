@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import ProfileHeader from '@/components/profileHeader'; 
+import { useGetPosts } from '@/hooks/useGetPost'
+import { PostCard } from '@/components/postCard'
 import { Container, Button, Box, Typography, useTheme } from '@mui/material';
 
 const ProfilePage = () => {
   const theme = useTheme();
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState('Postagens');
+
+  const { postsData } = useGetPosts()
 
   return (
     <div>
@@ -53,6 +57,18 @@ const ProfilePage = () => {
           >
             <Typography variant="inherit">Postagens</Typography>
           </Button>
+        </Box>
+      </Container>
+      <Container maxWidth="false" style={{ padding: '0', width: '100%' }}>
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          justifyContent="center" // Centraliza horizontalmente
+          alignItems="center" // Centraliza verticalmente
+        >
+          {postsData.map((post) => (
+            <PostCard key={post.post_id} post={post} miniature={true} />
+          ))}
         </Box>
       </Container>
     </div>
