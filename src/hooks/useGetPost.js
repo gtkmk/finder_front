@@ -2,12 +2,21 @@ import api from '@/services/api'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
-export const useGetPosts = () => {
+export const useGetPosts = (queryParams = {}) => {
   const [postsData, setPostsData] = useState([])
 
-  const fetchPostsData = async () => {
+  const FetchPostsData = async () => {
     try {
-      const response = await api.get('/posts?page=1', {
+      let queryString = '/posts?page=1'
+
+      if (queryParams.lostFound) {
+        queryString += `&lostFound=${queryParams.lostFound}`
+      }
+      if (queryParams.user_id) {
+        queryString += `&user_id=${queryParams.user_id}`
+      }
+
+      const response = await api.get(queryString, {
         withCredentials: true,
       })
 
@@ -15,11 +24,11 @@ export const useGetPosts = () => {
       setPostsData(posts.data)
     } catch (error) {
       toast.error('Error fetching posts')
-    }
+    } 
   }
 
   useEffect(() => {
-    fetchPostsData()
+    FetchPostsData()
   }, [])
 
   return {

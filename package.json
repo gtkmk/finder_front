@@ -24,6 +24,7 @@
     "react-hook-form": "^7.51.0",
     "react-input-mask": "^2.0.4",
     "react-modal": "^3.16.1",
+    "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
     "styled-components": "^6.1.8"
   },
