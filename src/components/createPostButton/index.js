@@ -17,7 +17,7 @@ const CreatePostButton = ({ buttonText }) => {
 
     useEffect(() => {
       const handleResize = () => {
-        setIsWideScreen(window.innerWidth >= 1350);
+        setIsWideScreen(window.innerWidth >= 1600);
       };
   
       window.addEventListener('resize', handleResize);
@@ -29,24 +29,20 @@ const CreatePostButton = ({ buttonText }) => {
     }, []);
 
     const buttonStyle = {
-      position: 'absolute',
       padding: '10px',
       color: '#fff',
       borderRadius: '20px',
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
-      top: '1rem',
       left: '1rem',
     };
 
     if (isWideScreen) {
-        buttonStyle.position = 'fixed';
-        delete buttonStyle.marginBottom;
+        buttonStyle.position = 'absolute';
       } else {
         delete buttonStyle.position;
         delete buttonStyle.left;
-        buttonStyle.marginBottom = '1.5rem';
       }
   
     const textStyle = {

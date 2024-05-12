@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -12,25 +13,178 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloudDoneIcon from '@mui/icons-material/CloudDone';
 import CloudOffIcon from '@mui/icons-material/CloudOff';
 import useGetPostParams from '@/hooks/useGetPostParams'
-import usePostFormHandler from '@/hooks/usePostFormHandler ';
+import usePostFormHandler from '@/hooks/usePostFormHandler';
 
 const PostModalContent = ({ onSubmit, onClose }) => {
     const { postParamsData } = useGetPostParams();
 
-    const [formData, setFormData] = useState({
-        text: '',
-        location: '',
-        reward: '',
-        lost_found: '',
-        category: 'default',
-        media: null,
-        animal_type: '',
-        animal_size: '',
-        privacy: 'public',
-    });
-
     const [isFileSupported, setIsFileSupported] = useState(true);
     const [isDragActive, setIsDragActive] = useState(false);
+
+    const [formData, setFormData] = useState({
+      text: '',
+      location: '',
+      state: '',
+      city: '',
+  });
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [neighborhoods, setNeighborhoods] = useState([]);
+
+  useEffect(() => {
+      fetchStates(); // Carrega os estados ao montar o componente
+  }, []);
+
+  const fetchStates = async () => {
+      try {
+          const response = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
+          setStates(response.data);
+          console.log(response.data)
+      } catch (error) {
+          console.error('Erro ao buscar os estados:', error);
+      }
+  };
+
+  const fetchCities = async (stateId) => {
+      try {
+          const response = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`);
+          setCities(response.data);
+      } catch (error) {
+          console.error('Erro ao buscar as cidades:', error);
+      }
+  };
+
+  // const fetchNeighborhoods = async (cityId) => {
+  //     try {
+  //       alert(cityId)
+  //         // const response = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${cityId}/distritos`);
+  //         const response = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${cityId}/distritos`);
+  //         setNeighborhoods(response.data);
+  //     } catch (error) {
+  //         console.error('Erro ao buscar os bairros:', error);
+  //     }
+  // };
+
+  // const fetchNeighborhoods = async (cityName) => {
+  //   try {
+  //     // const response = await axios.get(`https://nominatim.openstreetmap.org/search?city=${cityName}&country=Brazil&format=json&addressdetails=1&limit=1000`);
+  //     const response = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/MG/municipios/Belo%20Horizonte/distritos`);
+
+  //     console.log("____________________________________________________")
+  //     console.log(response)
+
+  //     const neighborhoods = response.data
+  //         .filter((element) => element.type === 'administrative' && element.class === 'boundary')
+  //         .map((element) => ({
+  //             id: element.osm_id,
+  //             name: element.display_name,
+  //         }));
+      
+  //     setNeighborhoods(neighborhoods);
+
+  //   } catch (error) {
+  //       console.error('Erro ao buscar os bairros:', error);
+  //   }
+  // };
+
+  // const fetchStates = async () => {
+  //   try {
+  //       const query = `
+  //           [out:json];
+  //           area["ISO3166-1"="BR"]->.br;
+  //           (
+  //               rel(area.br)["admin_level"="4"];
+  //           );
+  //           out body;
+  //       `;
+  //       const response = await axios.post('https://overpass-api.de/api/interpreter', query);
+  //       const states = response.data.elements.map((element) => ({
+  //           id: element.id,
+  //           name: element.tags.name,
+  //       }));
+  //       setStates(states);
+  //   } catch (error) {
+  //       console.error('Erro ao buscar os estados:', error);
+  //   }
+  // };
+
+//   const fetchCities = async (stateId) => {
+//     try {
+//         const query = `
+//             [out:json];
+//             area(${stateId})->.state;
+//             (
+//                 node(area.state)["place"="city"];
+//                 way(area.state)["place"="city"];
+//                 relation(area.state)["place"="city"];
+//             );
+//             out body;
+//         `;
+//         const response = await axios.post('https://overpass-api.de/api/interpreter', query);
+//         console.log("=========================================")
+//         console.log(response)
+//         const cities = response.data.elements.map((element) => ({
+//             id: element.id,
+//             name: element.tags.name,
+//         }));
+//         setCities(cities);
+//     } catch (error) {
+//         console.error('Erro ao buscar as cidades:', error);
+//     }
+// };
+
+  // const fetchCities = async (stateId) => {
+  //   try {
+  //     // URL da API Overpass para buscar todas as cidades de um estado brasileiro
+  //     const url = `https://overpass-api.de/api/interpreter?data=[out:json][timeout:25];area(${stateId})->.searchArea;(node["place"="city"](area.searchArea);node["place"="town"](area.searchArea););out;`;
+
+  //     // Fazendo a requisição GET com o Axios
+  //     const response = await axios.get(url);
+
+  //     console.log("=========================================")
+  //     console.log(response)
+
+  //     // Verificando se a requisição foi bem sucedida
+  //     if (response.status === 200) {
+  //       // Retornando os dados das cidades
+  //       const cities = response.data.elements.map(city => ({
+  //         id: city.id,
+  //         name: city.tags.name
+  //       }));
+
+  //       setCities(cities);
+  //     } else {
+  //       throw new Error('Erro ao buscar cidades.');
+  //     }
+  //   } catch (error) {
+  //     // Tratando erros caso a requisição falhe
+  //     console.error('Erro na requisição:', error.message);
+  //     return null;
+  //   }
+  // };
+
+  // const fetchNeighborhoods = async (cityId) => {
+  //   try {
+  //       const query = `
+  //           [out:json];
+  //           area(${cityId})->.city;
+  //           (
+  //               node(area.city)["place"="suburb"];
+  //               way(area.city)["place"="suburb"];
+  //               relation(area.city)["place"="suburb"];
+  //           );
+  //           out body;
+  //       `;
+  //       const response = await axios.post('https://overpass-api.de/api/interpreter', query);
+  //       const neighborhoods = response.data.elements.map((element) => ({
+  //           id: element.id,
+  //           name: element.tags.name,
+  //       }));
+  //       setNeighborhoods(neighborhoods);
+  //   } catch (error) {
+  //       console.error('Erro ao buscar os bairros:', error);
+  //   }
+  // };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -47,9 +201,9 @@ const PostModalContent = ({ onSubmit, onClose }) => {
             ...prevData,
             media: file,
         }));
-        setIsFileSupported(true);
+          setIsFileSupported(true);
         } else {
-        setIsFileSupported(false);
+          setIsFileSupported(false);
         }
     };
 
@@ -71,7 +225,7 @@ const PostModalContent = ({ onSubmit, onClose }) => {
         uploadIcon = CloudOffIcon;
     }
 
-    const { handleSubmit, isSubmitting } = usePostFormHandler();
+    const { handleSubmit } = usePostFormHandler();
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -101,7 +255,7 @@ const PostModalContent = ({ onSubmit, onClose }) => {
                         padding: '1rem',
                         textAlign: 'center'
                     }}>
-                    <input {...getInputProps()} />
+                    <input {...getInputProps()} id="media" />
                     {formData.media ? (
                         <img
                             src={URL.createObjectURL(formData.media)}
@@ -123,7 +277,7 @@ const PostModalContent = ({ onSubmit, onClose }) => {
                 fullWidth
                 id="text"
                 name="text"
-                label="Texto"
+                label="Texto da postagem"
                 multiline
                 rows={4}
                 value={formData.text}
@@ -132,19 +286,72 @@ const PostModalContent = ({ onSubmit, onClose }) => {
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                fullWidth
-                id="location"
-                name="location"
-                label="Localização"
-                value={formData.location}
-                onChange={handleInputChange}
-                required
-              />
-            </Grid>
+              {/* Adicione os campos de Select para estado, cidade e bairro aqui */}
+              <FormControl fullWidth>
+                  <InputLabel id="state-label">Estado *</InputLabel>
+                  <Select
+                      labelId="state-label"
+                      id="state"
+                      name="state"
+                      value={formData.state}
+                      onChange={(e) => {
+                          handleInputChange(e);
+                          fetchCities(e.target.value);
+                      }}
+                      required
+                  >
+                      {states.map((state) => (
+                          <MenuItem key={state.id} value={state.id}>
+                              {state.nome}
+                          </MenuItem>
+                      ))}
+                  </Select>
+              </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+              <FormControl fullWidth>
+                  <InputLabel id="city-label">Cidade *</InputLabel>
+                  <Select
+                      labelId="city-label"
+                      id="city"
+                      name="city"
+                      value={formData.city}
+                      onChange={(e) => {
+                          handleInputChange(e);
+                          // fetchNeighborhoods('Rio de Janeiro');
+                      }}
+                      required
+                  >
+                      {cities.map((city) => (
+                          <MenuItem key={city.id} value={city.id}>
+                              {city.nome}
+                          </MenuItem>
+                      ))}
+                  </Select>
+              </FormControl>
+          </Grid>
+          {/* <Grid item xs={4}>
+              <FormControl fullWidth>
+                  <InputLabel id="neighborhood-label">Bairro</InputLabel>
+                  <Select
+                      labelId="neighborhood-label"
+                      id="neighborhood"
+                      name="neighborhood"
+                      value={formData.neighborhood}
+                      onChange={handleInputChange}
+                      required
+                  >
+                      {neighborhoods.map((neighborhood) => (
+                          <MenuItem key={neighborhood.id} value={neighborhood.id}>
+                              {neighborhood.nome}
+                          </MenuItem>
+                      ))}
+                  </Select>
+              </FormControl>
+          </Grid> */}
             <Grid item xs={6}>
               <FormControl fullWidth>
-                <InputLabel id="reward-label">Recompensa</InputLabel>
+                <InputLabel id="reward-label">Recompensa *</InputLabel>
                 <Select
                   labelId="reward-label"
                   id="reward"
@@ -190,7 +397,7 @@ const PostModalContent = ({ onSubmit, onClose }) => {
             </Grid>
             <Grid item xs={6}>
               <FormControl fullWidth>
-                <InputLabel id="animal_type-label">Espécie do Animal</InputLabel>
+                <InputLabel id="animal_type-label">Espécie do Animal *</InputLabel>
                 <Select
                   labelId="animal_type-label"
                   id="animal_type"
@@ -213,7 +420,7 @@ const PostModalContent = ({ onSubmit, onClose }) => {
             </Grid>
             <Grid item xs={6}>
               <FormControl fullWidth>
-                <InputLabel id="animal_size-label">Tamaho do Animal</InputLabel>
+                <InputLabel id="animal_size-label">Tamaho do Animal *</InputLabel>
                 <Select
                   labelId="animal_size-label"
                   id="animal_size"

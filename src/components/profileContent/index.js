@@ -12,26 +12,8 @@ export default function ProfileContent() {
 
     const [selectedOption, setSelectedOption] = useState('Postagens');
     const { postsData } = useGetPosts()
-    // const [postsData, setPostsData] = useState([]);
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //     const queryParams = { user_id: userId }; // Utiliza o ID da URL nos parâmetros da consulta
-    //     if (selectedOption !== 'Postagens') {
-    //         queryParams.lostFound = selectedOption === 'Animais perdidos' ? 'lost' : 'found';
-    //     }
-
-    //     try {
-    //         const response = await api.get('/posts', { params: queryParams }, { withCredentials: true });
-    //         setPostsData(response.data.posts.data);
-    //     } catch (error) {
-    //         console.error('Error fetching posts:', error);
-    //         toast.error('Error fetching posts');
-    //     }
-    //     };
-
-    //     fetchData();
-    // }, [selectedOption, userId]);
+    // const [postsData, setPostsData] = useState([])
 
     // const handleOptionChange = (option, lostFoundValue) => {
     //     setSelectedOption(option);
@@ -39,7 +21,7 @@ export default function ProfileContent() {
 
     return (
         <>
-            <Container maxWidth="md" style={{ marginTop: '20px' }}>
+            <Container maxWidth="md" style={{ marginTop: '10px', marginBottom: '10px' }}>
                 <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Button
                     onClick={() => handleOptionChange('Animais perdidos', 'lost')}
