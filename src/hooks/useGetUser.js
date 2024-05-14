@@ -11,11 +11,11 @@ const useGetUser = (userId) => {
         withCredentials: true,
       });
 
-      if (response.data.data.data[0]) {
-        setUserData(response.data.data.data[0]);
+      if (response.data.data[0]) {
+        setUserData(response.data.data[0]);
       }
     } catch (error) {
-      toast.error('Error fetching user data');
+      toast.error(error);
     }
   };
 
@@ -27,7 +27,6 @@ const useGetUser = (userId) => {
 
   return {
     userData,
-    isOwnProfile: userData?.is_own_profile || false, // Acessando is_own_profile e definindo um valor padrão caso não exista
   };
 };
 

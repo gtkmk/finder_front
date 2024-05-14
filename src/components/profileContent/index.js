@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import api from '@/services/api'
-import { useParams } from 'react-router-dom';
-import { useGetPosts } from '@/hooks/useGetPost'
-import { toast } from 'react-toastify'
+import { useGetPosts } from '@/hooks/useGetPost';
 import { PostCard } from '@/components/postCard';
 import { Container, Button, Box, Typography, useTheme } from '@mui/material';
 
-export default function ProfileContent() {
+export default function ProfileContent({
+    userId,
+}) {
     const theme = useTheme();
-    const { userId } = useParams(); // Obtém o ID da URL usando o hook useParams
-
+    const { postsData, setFilters } = useGetPosts({ user_id: userId });
     const [selectedOption, setSelectedOption] = useState('Postagens');
-    const { postsData } = useGetPosts()
 
-    // const [postsData, setPostsData] = useState([])
-
-    // const handleOptionChange = (option, lostFoundValue) => {
-    //     setSelectedOption(option);
-    // };
+    const handleOptionChange = (option, lostFoundValue) => {
+        setSelectedOption(option);
+        setFilters({ lostFound: lostFoundValue });
+    };
 
     return (
         <>
@@ -26,19 +22,19 @@ export default function ProfileContent() {
                 <Button
                     onClick={() => handleOptionChange('Animais perdidos', 'lost')}
                     style={{
-                    backgroundColor: selectedOption === 'Animais perdidos' ? theme.palette.primary.main : 'transparent',
-                    fontSize: '1.2rem',
-                    fontWeight: 'bold',
-                    padding: '8px 16px',
-                    marginRight: '8px',
-                    color: 'white',
-                    borderRadius: '80px'
+                        backgroundColor: selectedOption === 'Animais perdidos' ? theme.palette.primary.main : 'transparent',
+                        fontSize: '1.2rem',
+                        fontWeight: 'bold',
+                        padding: '8px 16px',
+                        marginRight: '8px',
+                        color: 'white',
+                        borderRadius: '80px'
                     }}
                 >
                     <Typography variant="inherit">Animais perdidos</Typography>
                 </Button>
                 <Button
-                    onClick={() => setSelectedOption('Animais avistados', 'found')}
+                    onClick={() => handleOptionChange('Animais avistados', 'found')}
                     style={{
                     backgroundColor: selectedOption === 'Animais avistados' ? theme.palette.primary.main : 'transparent',
                     fontSize: '1.2rem',
@@ -51,7 +47,7 @@ export default function ProfileContent() {
                     <Typography variant="inherit">Animais avistados</Typography>
                 </Button>
                 <Button
-                    onClick={() => setSelectedOption('Postagens')}
+                    onClick={() => handleOptionChange('Postagens', null)}
                     style={{
                     backgroundColor: selectedOption === 'Postagens' ? theme.palette.primary.main : 'transparent',
                     fontSize: '1.2rem',
@@ -70,8 +66,8 @@ export default function ProfileContent() {
                 <Box
                 display="flex"
                 flexWrap="wrap"
-                justifyContent="center" // Centraliza horizontalmente
-                alignItems="center" // Centraliza verticalmente
+                justifyContent="center"
+                alignItems="center"
                 >
                 {postsData.map((post) => (
                     <PostCard key={post.post_id} post={post} miniature={true} />

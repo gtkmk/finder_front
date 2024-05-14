@@ -12,8 +12,10 @@ import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import AddIcon from '@mui/icons-material/Add';
 import { Base64Image } from '@/components/Image';
+import { useFollowHandler } from '@/hooks/useFollowHandler'
 
 export default function Profile({
+    userId,
     name,
     userName,
     email,
@@ -25,13 +27,30 @@ export default function Profile({
     profilePicture,
     profileBanner,
     isOwnProfile,
+    isFollowed,
+    isFollowing,
   }) {
   const router = useRouter();
   const { user_id } = router.query;
 
   const [bannerGridSize, setBannerGridSize] = useState(8);
   const [isWideScreen, setIsWideScreen] = useState(false);
-  const [isFollowing, setIsFollowing] = useState(true);
+  const [followerCounter, setFollowerCounter] = useState(followingCount);
+
+  const { handleFollow } = useFollowHandler(userId);
+  const [ followStatus, setFollowStatus ] = useState(isFollowed);  
+
+  const handleFollowClick = async () => {
+    if (followStatus == false) {
+      alert("Aq")
+      setFollowerCounter(followingCount)
+    } else {
+      alert("lá")
+      setFollowerCounter(followingCount-1)
+    }
+    const newFollowStatus = await handleFollow();
+    setFollowStatus(newFollowStatus)
+  };
 
   const containerStyle = {
     overflow: 'hidden',
@@ -89,11 +108,12 @@ export default function Profile({
                   {!isOwnProfile && (
                     <Button
                       variant="contained"
-                      color={isFollowing ? 'secondary' : 'primary'}
+                      color={followStatus ? 'secondary' : 'primary'}
                       style={{ position: 'absolute', bottom: '0', right: '0' }}
-                      startIcon={isFollowing ? <CheckIcon /> : <AddIcon />}
+                      startIcon={followStatus ? <CheckIcon /> : <AddIcon />}
+                      onClick={handleFollowClick}
                     >
-                      {isFollowing ? 'Seguindo' : 'Seguir'}
+                      {followStatus ? 'Seguindo' : 'Seguir'}
                     </Button>
                   )}
                 </div>
@@ -104,13 +124,13 @@ export default function Profile({
                     <IconButton aria-label="followers" color="primary">
                       <PeopleAltIcon />
                     </IconButton>
-                    <Typography variant="body2">{followersCount} Seguidores</Typography>
+                    <Typography variant="body2">{followerCounter} Seguidores</Typography>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <IconButton aria-label="following" color="primary">
                       <PersonIcon />
                     </IconButton>
-                    <Typography variant="body2">{followingCount} Seguindo</Typography>
+                    <Typography variant="body2">{followersCount} Seguindo</Typography>
                   </div>
                 </div>
               </Grid>
