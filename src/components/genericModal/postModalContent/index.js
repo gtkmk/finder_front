@@ -39,23 +39,49 @@ const PostModalContent = ({ onSubmit, onClose }) => {
   const [isFileSupported, setIsFileSupported] = useState(true);
   const [isDragActive, setIsDragActive] = useState(false);
 
-  useEffect(() => {
-    fetchStates(); // Carrega os estados ao montar o componente
-  }, []);
+  // const fetchStates = async () => {
+  //   try {
+  //     const response = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
+  //     setStates(response.data);
+  //   } catch (error) {
+  //     console.error('Erro ao buscar os estados:', error);
+  //   }
+  // };
 
   const fetchStates = async () => {
     try {
       const response = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
-      setStates(response.data);
+      const statesData = response.data.map((state) => ({
+        id: state.id,
+        nome: state.nome,
+      }));
+      setStates(statesData);
     } catch (error) {
       console.error('Erro ao buscar os estados:', error);
     }
   };
 
+  useEffect(() => {
+    fetchStates();
+  }, []);
+
+  // const fetchCities = async (stateId) => {
+  //   try {
+  //     const response = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`);
+  //     setCities(response.data);
+  //   } catch (error) {
+  //     console.error('Erro ao buscar as cidades:', error);
+  //   }
+  // };
+
   const fetchCities = async (stateId) => {
     try {
       const response = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`);
-      setCities(response.data);
+      const citiesData = response.data.map((city) => ({
+        id: city.id,
+        nome: city.nome,
+      }));
+      setCities(citiesData);
     } catch (error) {
       console.error('Erro ao buscar as cidades:', error);
     }
@@ -189,9 +215,14 @@ const PostModalContent = ({ onSubmit, onClose }) => {
                 name="state"
                 value={formData.state}
                 onChange={(e) => {
-                  handleInputChange(e);
+                  const selectedState = states.find((state) => state.id === e.target.value);
+                  handleInputChange({ target: { name: 'state', value: selectedState.nome } });
                   fetchCities(e.target.value);
                 }}
+                // onChange={(e) => {
+                //   handleInputChange(e);
+                //   fetchCities(e.target.value);
+                // }}
                 required
               >
                 {states.map((state) => (
@@ -211,8 +242,12 @@ const PostModalContent = ({ onSubmit, onClose }) => {
                 name="city"
                 value={formData.city}
                 onChange={(e) => {
-                  handleInputChange(e);
+                  const selectedCity = cities.find((city) => city.id === e.target.value);
+                  handleInputChange({ target: { name: 'city', value: selectedCity.nome } });
                 }}
+                // onChange={(e) => {
+                //   handleInputChange(e);
+                // }}
                 required
               >
                 {cities.map((city) => (
