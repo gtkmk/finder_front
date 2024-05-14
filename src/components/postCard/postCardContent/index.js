@@ -1,53 +1,54 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { Base64Image } from '@/components/Image';
-import { CardContent, Typography, Grid } from '@mui/material';
-import { PostCardActions } from '../postCardActions';
-import { useHandleComments } from '@/hooks/useHandleComments';
+import React, { useState, useLayoutEffect } from 'react'
+import { Base64Image } from '@/components/Image'
+import { CardContent, Typography, Grid } from '@mui/material'
+import { PostCardActions } from '../postCardActions'
+import { useHandleComments } from '@/hooks/useHandleComments'
 
 export const PostCardContent = ({ post, miniature }) => {
-  const { comments, handleAddComment } = useHandleComments();
-  const [imageHeights, setImageHeights] = useState([]);
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1000);
+  const { comments, handleAddComment } = useHandleComments()
+  const [imageHeights, setImageHeights] = useState([])
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1000)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 1000);
-    };
+      setIsSmallScreen(window.innerWidth < 1000)
+    }
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize)
     return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-  
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const calculateImageHeights = () => {
-      if (window.innerWidth < 650) return;
+      if (window.innerWidth < 650) return
 
-      const gridItems = document.querySelectorAll('.post-card-grid > div > div:first-child img');
-      let currentRow = [];
-      let currentRowHeight = 0;
+      const gridItems = document.querySelectorAll(
+        '.post-card-grid > div > div:first-child img'
+      )
+      let currentRow = []
+      let currentRowHeight = 0
       gridItems.forEach((item, index) => {
-        currentRow.push(item);
-        currentRowHeight = Math.max(currentRowHeight, item.offsetHeight);
+        currentRow.push(item)
+        currentRowHeight = Math.max(currentRowHeight, item.offsetHeight)
         if ((index + 1) % 2 === 0 || index === gridItems.length - 1) {
           currentRow.forEach((img) => {
-            img.style.height = `${currentRowHeight}px`;
-          });
-          setImageHeights((prevHeights) => [...prevHeights, currentRowHeight]);
-          currentRow = [];
-          currentRowHeight = 0;
+            img.style.height = `${currentRowHeight}px`
+          })
+          setImageHeights((prevHeights) => [...prevHeights, currentRowHeight])
+          currentRow = []
+          currentRowHeight = 0
         }
-      });
-    };
+      })
+    }
 
-    calculateImageHeights();
-    window.addEventListener('resize', calculateImageHeights);
+    calculateImageHeights()
+    window.addEventListener('resize', calculateImageHeights)
 
-    return () => window.removeEventListener('resize', calculateImageHeights);
-  }, []);
-  
+    return () => window.removeEventListener('resize', calculateImageHeights)
+  }, [])
+
   if (miniature) {
     return (
       <>
@@ -79,7 +80,7 @@ export const PostCardContent = ({ post, miniature }) => {
                   WebkitLineClamp: 4,
                   WebkitBoxOrient: 'vertical',
                   marginBottom: '10px',
-                  paddingTop: '0' 
+                  paddingTop: '0',
                 }}
               >
                 {post.text}
@@ -94,7 +95,7 @@ export const PostCardContent = ({ post, miniature }) => {
           shares={post.shares}
         />
       </>
-    );
+    )
   }
 
   return (
@@ -104,7 +105,9 @@ export const PostCardContent = ({ post, miniature }) => {
           {post.text}
         </Typography>
       </CardContent>
-      <CardContent style={{ justifyContent: 'center', display: 'flex', padding: '0' }}>
+      <CardContent
+        style={{ justifyContent: 'center', display: 'flex', padding: '0' }}
+      >
         <Base64Image mediaUrl={post.post_media} type="post" />
       </CardContent>
       <PostCardActions
@@ -114,5 +117,5 @@ export const PostCardContent = ({ post, miniature }) => {
         shares={post.shares}
       />
     </>
-  );
-};
+  )
+}
