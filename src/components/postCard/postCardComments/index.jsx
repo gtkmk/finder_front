@@ -12,7 +12,7 @@ export const PostCardComments = (post_id) => {
 
   return (
     <S.PostCommentsContainer open={commentsOpen}>
-      <CommentBox post_id={post_id} />
+      <CommentBox post_id={post_id.post_id} />
       <div>Um comentario aleatorio hardcoded</div>
     </S.PostCommentsContainer>
   )
