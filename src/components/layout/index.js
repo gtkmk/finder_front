@@ -21,13 +21,23 @@ const Layout = ({ children }) => {
   const isLargeScreen = useMediaQuery('(min-width:1000px)');
   
   const getContainerPadding = () => {
-    if (isExtraLargeScreen) {
-      return '15% !important';
-    } else if (isLargeScreen) {
-      return '20% !important';
-    } else {
-      return '24px !important';
+    if (!isLoginPage && !isRegisterPage) {
+      if (isExtraLargeScreen) {
+        return '15% !important';
+      } else if (isLargeScreen) {
+        return '20% !important';
+      } else {
+        return '24px !important';
+      }
     }
+  };
+
+  const getContainerPaddingTop = () => {
+    if (!isLoginPage && !isRegisterPage) {
+      return '50px';
+    }
+
+    return '0px';
   };
 
   return (
@@ -38,7 +48,7 @@ const Layout = ({ children }) => {
       {!isLoginPage && !isRegisterPage && (
         <SideMenu isOpen={isSideMenuOpen} toggleDrawer={toggleSideMenu} />
       )}
-      <Container maxWidth='xg'   sx={{ paddingTop: '50px', paddingRight: getContainerPadding() }}>
+      <Container maxWidth='xg'   sx={{ paddingTop: getContainerPaddingTop(), paddingRight: getContainerPadding() }}>
         <Box mt={4}>
           {/* Renderiza o conteúdo da página */}
           {children}
