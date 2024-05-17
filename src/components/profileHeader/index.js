@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useGetUserDetails } from '@/hooks/useGetUserDetails';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import { CardMedia } from '@mui/material';
@@ -12,15 +11,46 @@ import PersonIcon from '@mui/icons-material/Person';
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import AddIcon from '@mui/icons-material/Add';
+import { Base64Image } from '@/components/Image';
+import { useFollowHandler } from '@/hooks/useFollowHandler'
 
-export default function Profile() {
+export default function Profile({
+    userId,
+    name,
+    userName,
+    email,
+    cellphoneNumber,
+    followersCount,
+    followingCount,
+    foundPostsCount,
+    lostPostsCount,
+    profilePicture,
+    profileBanner,
+    isOwnProfile,
+    isFollowed,
+    isFollowing,
+  }) {
   const router = useRouter();
   const { user_id } = router.query;
-  const { userData } = useGetUserDetails(user_id);
 
-  const [bannerGridSize, setBannerGridSize] = useState(7);
+  const [bannerGridSize, setBannerGridSize] = useState(8);
   const [isWideScreen, setIsWideScreen] = useState(false);
-  const [isFollowing, setIsFollowing] = useState(true);
+  const [followerCounter, setFollowerCounter] = useState(followingCount);
+
+  const { handleFollow } = useFollowHandler(userId);
+  const [ followStatus, setFollowStatus ] = useState(isFollowed);  
+
+  const handleFollowClick = async () => {
+    if (followStatus == false) {
+      alert("Aq")
+      setFollowerCounter(followingCount)
+    } else {
+      alert("lá")
+      setFollowerCounter(followingCount-1)
+    }
+    const newFollowStatus = await handleFollow();
+    setFollowStatus(newFollowStatus)
+  };
 
   const containerStyle = {
     overflow: 'hidden',
@@ -33,6 +63,7 @@ export default function Profile() {
     borderRadius: '10px',
     margin: '20px',
     padding: '0',
+    display: 'flex',
   };
 
   useEffect(() => {
@@ -64,47 +95,59 @@ export default function Profile() {
   return (
     <div>
       <Container style={containerStyle}>
-        <Grid container spacing={3} style={{ margin: '0' }}>
+        <Grid container spacing={3} style={{ margin: '0', display: 'flex' }}>
           {isWideScreen ? (
             <>
               <Grid item xs={4} style={{ backgroundColor: '#3D3D3D', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0', maxHeight: '395px', marginTop: '2rem' }}>
                 <div style={{ position: 'relative' }}>
-                  <Avatar alt="User Avatar" src="/avatar.png" style={{ width: '15rem', height: '15rem', marginBottom: '8px' }} />
-                  <Button
-                    variant="contained"
-                    color={isFollowing ? 'secondary' : 'primary'}
-                    style={{ position: 'absolute', bottom: '0', right: '0' }}
-                    startIcon={isFollowing ? <CheckIcon /> : <AddIcon />}
-                  >
-                    {isFollowing ? 'Seguindo' : 'Seguir'}
-                  </Button>
+                  {/* <Avatar alt="User Avatar" src={profilePicture} style={{ width: '15rem', height: '15rem', marginBottom: '8px' }} /> */}
+                  <Base64Image
+                    mediaUrl={profilePicture}
+                    type="profileAvatar"
+                  />
+                  {!isOwnProfile && (
+                    <Button
+                      variant="contained"
+                      color={followStatus ? 'secondary' : 'primary'}
+                      style={{ position: 'absolute', bottom: '0', right: '0' }}
+                      startIcon={followStatus ? <CheckIcon /> : <AddIcon />}
+                      onClick={handleFollowClick}
+                    >
+                      {followStatus ? 'Seguindo' : 'Seguir'}
+                    </Button>
+                  )}
                 </div>
-                <Typography variant="h6" style={{ fontWeight: 'bold' }}>Nome do Usuário</Typography>
+                <Typography variant="h6" style={{ fontWeight: 'bold' }}>{userName}</Typography>
                 {/* <Typography variant="subtitle1">Nick do Usuário</Typography> */}
                 <div style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', marginRight: '16px' }}>
                     <IconButton aria-label="followers" color="primary">
                       <PeopleAltIcon />
                     </IconButton>
-                    <Typography variant="body2">1000 Seguidores</Typography>
+                    <Typography variant="body2">{followerCounter} Seguidores</Typography>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <IconButton aria-label="following" color="primary">
                       <PersonIcon />
                     </IconButton>
-                    <Typography variant="body2">500 Seguindo</Typography>
+                    <Typography variant="body2">{followersCount} Seguindo</Typography>
                   </div>
                 </div>
               </Grid>
-              <Grid item xs={bannerGridSize} style={{ backgroundColor: 'pink', padding: '0' }}>
-                <CardMedia 
+              <Grid item xs={bannerGridSize} style={{ padding: '0', backgroundColor: 'red' }}>
+                <Base64Image
+                    mediaUrl={profileBanner}
+                    type="profileBanner"
+                    style={{ height: '100%' }}
+                  />
+                {/* <CardMedia 
                   component="img"
                   height="100%"
                   width="100%"
                   image="/banner.png"
                   alt="Loading..."
                   style={{ objectFit: 'cover', minHeight: '395px', maxHeight: '395px' }}
-                />
+                /> */}
               </Grid>
             </>
           ) : (
@@ -135,21 +178,21 @@ export default function Profile() {
                     {isFollowing ? 'Seguindo' : 'Seguir'}
                   </Button>
                   <div style={{ marginTop: '8px' }}>
-                    <span style={{ fontWeight: 'bold', fontSize: '16px' }}>Nick do Usuário</span>
+                    <span style={{ fontWeight: 'bold', fontSize: '16px' }}>{userName}</span>
                     <br />
-                    <span>Nome do Usuário</span>
+                    <span>{name}</span>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '8px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', marginRight: '16px' }}>
                         <IconButton aria-label="followers" color="primary">
                           <PeopleAltIcon />
                         </IconButton>
-                        <Typography variant="body2">1000 Seguidores</Typography>
+                        <Typography variant="body2">{followersCount} Seguidores</Typography>
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center' }}>
                         <IconButton aria-label="following" color="primary">
                           <PersonIcon />
                         </IconButton>
-                        <Typography variant="body2">500 Seguindo</Typography>
+                        <Typography variant="body2">{followingCount} Seguidores</Typography>
                       </div>
                     </div>
                   </div>

@@ -12,7 +12,7 @@ const translateAnimalType = {
 const translateAnimalSize = {
   small: 'Pequeno',
   medium: 'Médio',
-  big: 'Grande',
+  large: 'Grande',
 };
 
 export const PostCardHeader = ({

@@ -8,7 +8,7 @@ import CreatePostButton from '@/components/createPostButton';
 import Container from '@mui/material/Container'
 
 export default function Feed() {
-  const { postsData } = useGetPosts()
+  const { postsData } = useGetPosts( { user_id: null } )
 
   return (
     <div>

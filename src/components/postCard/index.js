@@ -46,7 +46,9 @@ export const PostCard = ({ post, miniature }) => {
           miniature={miniature}
         />
         <PostCardContent post={post} miniature={miniature} />
-        <PostCardComments />
+        <PostCardComments
+          post_id={post.post_id}
+        />
       </Card>
     </PostCardContextProvider>
   )
