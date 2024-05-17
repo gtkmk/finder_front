@@ -5,8 +5,9 @@ import axios from 'axios';
 import * as S from './commentBox.styles'
 import { useTheme } from '@mui/material'
 import { toast } from 'react-toastify'
+import { LocalConvenienceStoreOutlined } from '@mui/icons-material';
 
-export const CommentBox = (post_id) => {
+export const CommentBox = ({ post_id, onCommentSubmit }) => {
   const theme = useTheme();
   const [comment, setComment] = useState('');
 
@@ -14,7 +15,7 @@ export const CommentBox = (post_id) => {
     try {
       const formData = new FormData();
       formData.append('text', comment);
-      formData.append('post_id', post_id.post_id);
+      formData.append('post_id', post_id);
 
       const response = await axios.post('http://localhost:8089/comment', formData, {
         headers: {
@@ -25,11 +26,13 @@ export const CommentBox = (post_id) => {
 
       if (response.status === 201) {
         toast.success(response.data.message);
+        setComment('');
+        onCommentSubmit();
+      } else {	
+        toast.error('Erro ao enviar o comentário:', error);
       }
-
-      setComment('');
     } catch (error) {
-      console.error('Erro ao enviar o comentário:', error);
+      toast.error('Erro ao enviar o comentário:', error);
     }
   };
 
