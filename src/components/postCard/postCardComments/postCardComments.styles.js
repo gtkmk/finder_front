@@ -10,7 +10,6 @@ export const PostCommentsContainer = styled.div.attrs((props) => ({
       display: flex;
       flex-direction: column;
       width: 100%;
-      color: white;
       padding: 10px 20px;
     `}
   `}

@@ -36,7 +36,7 @@ export const CommentBox = (post_id) => {
   return (
     <S.CommentBoxWrapper>
       <TextField
-        label="Comentario"
+        label="Comentário"
         multiline
         rows={1}
         style={{ color: 'white', width: '95%' }}
@@ -48,7 +48,7 @@ export const CommentBox = (post_id) => {
         $bgHoverColor={theme.palette.secondary.main}
         onClick={handleSubmitComment}
       >
-        <SendIcon />
+        <SendIcon style={{ color: 'white' }} />
       </S.SendIconWrapper>
     </S.CommentBoxWrapper>
   )

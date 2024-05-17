@@ -40,13 +40,13 @@ const SideMenu = ({ isOpen, toggleDrawer }) => {
       open={isOpen}
       onClose={toggleDrawer}
       variant={isLargeScreen ? 'permanent' : 'temporary'}
-      anchor="right" // Define a posição do Drawer à direita
+      anchor="right"
       sx={{
-        width: getImageWidth(), // Define a largura do Drawer
+        width: getImageWidth(),
         flexShrink: 0,
         '& .MuiDrawer-paper': {
           backgroundColor: theme.palette.primary.main,
-          width: getImageWidth(), // Define a largura do Drawer-paper
+          width: getImageWidth(),
         },
       }}
     >
@@ -54,11 +54,11 @@ const SideMenu = ({ isOpen, toggleDrawer }) => {
         <img src="/logo/Logo Vertical - Png - Com cor .png" alt="Logo" style={{ maxWidth: '130px', height: 'auto' }} />
       </div>
       <List>
-        <ListItem button onClick={() => handleNavigation('/')}>
+        <ListItem button onClick={() => handleNavigation('/feed')}>
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText primary="Home" />
+          <ListItemText primary="Página inicial" />
         </ListItem>
         <ListItem button onClick={() => handleNavigation('/settings')}>
           <ListItemIcon>
@@ -66,7 +66,6 @@ const SideMenu = ({ isOpen, toggleDrawer }) => {
           </ListItemIcon>
           <ListItemText primary="Settings" />
         </ListItem>
-        {/* Add other menu items as needed */}
       </List>
     </Drawer>
   );
