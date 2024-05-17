@@ -71,7 +71,7 @@ export const PostCardHeader = ({
     <CardHeader
       avatar={<Base64Image mediaUrl={post_author_avatar} type="avatar" />}
       title={post_author}
-      subheader={post_location + ' • ' + translatedAnimalType + ' • ' + translatedAnimalSize}
+      subheader={post_location + ' - Tipo de animal: ' + translatedAnimalType + ' - Tamanho: ' + translatedAnimalSize}
       action={
         <>
           {post_reward && (

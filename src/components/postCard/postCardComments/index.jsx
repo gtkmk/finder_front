@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { useGetComments } from '@/hooks/useGetComments';
 
 // custom components
@@ -11,11 +11,18 @@ import { Comment } from '../comment'
 
 export const PostCardComments = (post_id) => {
   const { commentsOpen } = useContext(PostCardContext)
-  const commentsData = useGetComments({ postId: post_id.post_id });
+  const [reloadComments, setReloadComments] = useState(false);
+
+  // const commentsData = useGetComments({ postId: post_id.post_id });
+  const commentsData = useGetComments({ postId: post_id.post_id, reload: reloadComments });
+
+  const handleReloadComments = () => {
+    setReloadComments((prev) => !prev);
+  };
 
   return (
     <S.PostCommentsContainer open={commentsOpen}>
-      <CommentBox post_id={post_id.post_id} />
+      <CommentBox post_id={post_id.post_id} onCommentSubmit={handleReloadComments} />
         {commentsData.commentsData.map((comment) => (
           <Comment key={comment.comment_id} 
             commentId={comment.comment_id}
