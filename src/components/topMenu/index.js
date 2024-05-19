@@ -7,7 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 const topMenu = ({ toggleDrawer }) => {
   return (
-    <AppBar position="fixed">
+    <AppBar position="fixed" sx={{ zIndex: 900 }}>
       <Toolbar>
         <IconButton
           edge="start"
