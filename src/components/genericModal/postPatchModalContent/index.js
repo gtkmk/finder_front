@@ -108,7 +108,7 @@ const PostPatchModalContent = ({ postInfo, onClose }) => {
             if (response.status === 201) {
                 toast.success('Postagem editada com sucesso!');
                 setTimeout(() => {
-                    onClose();
+                    window.location.reload();
                 }, 2000);
             }
         } catch (error) {
