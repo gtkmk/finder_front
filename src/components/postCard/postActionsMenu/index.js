@@ -3,10 +3,12 @@ import { Menu, MenuItem, IconButton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import GenericModal from '../../genericModal';
 import PostPatchModalContent from '../../genericModal/postPatchModalContent';
+import { useDeletePostHandler } from '@/hooks/useDeletePostHandler';
 
 const PostActionsMenu = ({ post }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isModalOpen, setModalOpen] = useState(false); // Adicione o estado para o modal
+  const [isModalOpen, setModalOpen] = useState(false);
+  const { handleDeletePost } = useDeletePostHandler(); 
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -18,11 +20,19 @@ const PostActionsMenu = ({ post }) => {
 
   const handleOpenModal = () => {
     setModalOpen(true);
-    handleClose(); // Fechar o menu quando o modal abrir
+    handleClose();
   };
 
   const handleCloseModal = () => {
     setModalOpen(false);
+  };
+
+  const handleDeletePostClick = async () => {
+    
+    const deleted = await handleDeletePost(post.post_id);
+    if (deleted) {
+      handleClose();
+    }
   };
 
   return (
@@ -43,7 +53,7 @@ const PostActionsMenu = ({ post }) => {
         onClose={handleClose}
       >
         <MenuItem onClick={handleOpenModal}>Editar Publicação</MenuItem>
-        <MenuItem onClick={handleClose}>Deletar Publicação</MenuItem>
+        <MenuItem onClick={handleDeletePostClick}>Deletar Publicação</MenuItem>
       </Menu>
       {isModalOpen && (
         <GenericModal isOpen={isModalOpen} onClose={handleCloseModal}>

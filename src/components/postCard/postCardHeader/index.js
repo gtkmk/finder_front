@@ -78,15 +78,18 @@ export const PostCardHeader = ({
       }
     />
   )
-
+console.log(post)
   return (
     <CardHeader
       avatar={<Base64Image mediaUrl={post.post_author_avatar} type="avatar" />}
-      title={post.post_author}
+      title={post.post_author_username}
       subheader={post.post_location + ' - Tipo de animal: ' + translatedAnimalType + ' - Tamanho: ' + translatedAnimalSize}
       action={
-        <>
-          <PostActionsMenu post={post} />
+        <div style={{ display: 'flex', alignItems: 'center'}}>
+          {post.is_own_post == 1 &&
+            <PostActionsMenu post={post} />
+          }
+          
           {post.post_reward && (
             <Image
               src="/icons/bribe.png"
@@ -111,7 +114,7 @@ export const PostCardHeader = ({
               height={50}
             />
           )}
-        </>
+        </div>
       }
     />
   )
