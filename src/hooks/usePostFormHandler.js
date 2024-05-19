@@ -16,8 +16,6 @@ const usePostFormHandler = () => {
       const state = formData.get('state')
       const privacy = 'public'
       const category = 'default'
-
-      console.log(event)
   
       if (
         !text ||

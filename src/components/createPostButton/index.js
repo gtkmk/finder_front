@@ -11,10 +11,6 @@ const CreatePostButton = ({ buttonText }) => {
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
 
-    const handleCreatePost = (formData) => {
-        console.log('Dados do formulário:', formData);
-    };
-
     useEffect(() => {
       const handleResize = () => {
         setIsWideScreen(window.innerWidth >= 1600);
@@ -57,7 +53,6 @@ const CreatePostButton = ({ buttonText }) => {
             </Button>
             <GenericModal isOpen={isModalOpen} onClose={handleCloseModal}>
                 <PostModalContent
-                    onSubmit={handleCreatePost}
                     onClose={handleCloseModal}
                 />
             </GenericModal>

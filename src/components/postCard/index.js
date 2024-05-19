@@ -36,13 +36,7 @@ export const PostCard = ({ post, miniature }) => {
         sx={{ my: 2, backgroundColor: 'white' }}
       >
         <PostCardHeader
-          post_author={post.post_author}
-          post_author_avatar={post.post_author_avatar}
-          post_location={post.post_location}
-          post_lostFound={post.post_lostFound}
-          post_reward={post.post_reward}
-          post_animal_size={post.post_animal_size}
-          post_animal_type={post.post_animal_type}
+          post={post}
           miniature={miniature}
         />
         <PostCardContent post={post} miniature={miniature} />

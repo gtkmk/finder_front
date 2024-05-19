@@ -16,7 +16,7 @@ import useGetPostParams from '@/hooks/useGetPostParams'
 import usePostFormHandler from '@/hooks/usePostFormHandler';
 import { toast } from 'react-toastify'
 
-const PostModalContent = ({ onSubmit, onClose }) => {
+const PostModalContent = ({ onClose }) => {
   const { postParamsData } = useGetPostParams();
 
   const [formData, setFormData] = useState({
