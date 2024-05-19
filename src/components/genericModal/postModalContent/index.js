@@ -35,6 +35,7 @@ const PostModalContent = ({ onClose }) => {
   
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const [testeze, setTeste] = useState([]);
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [isFileSupported, setIsFileSupported] = useState(true);
   const [isDragActive, setIsDragActive] = useState(false);
@@ -94,6 +95,12 @@ const PostModalContent = ({ onClose }) => {
       [name]: value,
     }));
   };
+
+  const teste = (state) => {
+    console.log(state)
+    alert("state.nome")
+    
+  }
 
   const handleFileChange = (acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -213,7 +220,8 @@ const PostModalContent = ({ onClose }) => {
                 labelId="state-label"
                 id="state"
                 name="state"
-                value={formData.state}
+                // value={formData.state}
+                value={states.find(state => state.nome === formData.state)?.id || ''}
                 onChange={(e) => {
                   const selectedState = states.find((state) => state.id === e.target.value);
                   handleInputChange({ target: { name: 'state', value: selectedState.nome } });
@@ -240,7 +248,7 @@ const PostModalContent = ({ onClose }) => {
                 labelId="city-label"
                 id="city"
                 name="city"
-                value={formData.city}
+                value={cities.find(city => city.nome === formData.city)?.id || ''}
                 onChange={(e) => {
                   const selectedCity = cities.find((city) => city.id === e.target.value);
                   handleInputChange({ target: { name: 'city', value: selectedCity.nome } });
