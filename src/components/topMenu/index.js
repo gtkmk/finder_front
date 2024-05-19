@@ -7,7 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 const topMenu = ({ toggleDrawer }) => {
   return (
-    <AppBar position="fixed">
+    <AppBar position="fixed" sx={{ zIndex: 900 }}>
       <Toolbar>
         <IconButton
           edge="start"
@@ -17,10 +17,9 @@ const topMenu = ({ toggleDrawer }) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Your App Name
-        </Typography>
-        {/* Add other components or buttons as needed */}
+        </Typography> */}
       </Toolbar>
     </AppBar>
   );

@@ -14,23 +14,29 @@ export const useSignInHandler = () => {
     const password = formData.get('password')
 
     try {
-      const response = await api.post(
-        '/signin',
-        {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/signin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           email,
           password,
-        },
-        {
-          withCredentials: true,
-        }
-      )
+        }),
+        credentials: 'include',
+      })
 
-      if (response.status == 200) {
-        toast.success(response.data.message)
+      const data = await response.json()
+
+      if (response.ok) {
+        toast.success(data.message)
         setTimeout(timeOutCallback, 1000)
+      } else {
+        toast.error(data.message || 'Something went wrong. Please try again.')
       }
     } catch (error) {
-      toast.error(error.response?.data.message)
+      const errorMessage = error.response?.data?.message || 'Something went wrong. Please try again.'
+      toast.error(errorMessage)
     }
   }
 

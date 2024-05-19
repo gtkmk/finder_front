@@ -53,6 +53,7 @@ const SideMenu = ({ isOpen, toggleDrawer }) => {
         '& .MuiDrawer-paper': {
           backgroundColor: theme.palette.primary.main,
           width: getImageWidth(),
+          zIndex: 900,
         },
       }}
     >

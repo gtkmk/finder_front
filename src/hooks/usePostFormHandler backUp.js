@@ -20,9 +20,6 @@ const usePostFormHandler = () => {
                 },
             };
 
-            console.log("((((((((((((((((((((((((()))))))))))))))))))))))))))")
-            console.log(formData)
-
             const response = await api.post('/post', formData, config);
 
             if (response.status === 200) {

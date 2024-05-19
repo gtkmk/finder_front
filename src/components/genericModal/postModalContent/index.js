@@ -12,11 +12,10 @@ import { useDropzone } from 'react-dropzone';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloudDoneIcon from '@mui/icons-material/CloudDone';
 import CloudOffIcon from '@mui/icons-material/CloudOff';
-import useGetPostParams from '@/hooks/useGetPostParams'
-import usePostFormHandler from '@/hooks/usePostFormHandler';
-import { toast } from 'react-toastify'
+import useGetPostParams from '@/hooks/useGetPostParams';
+import { toast } from 'react-toastify';
 
-const PostModalContent = ({ onSubmit, onClose }) => {
+const PostModalContent = ({ onClose }) => {
   const { postParamsData } = useGetPostParams();
 
   const [formData, setFormData] = useState({
@@ -32,21 +31,11 @@ const PostModalContent = ({ onSubmit, onClose }) => {
     animal_type: '',
     animal_size: '',
   });
-  
+
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-  const [neighborhoods, setNeighborhoods] = useState([]);
   const [isFileSupported, setIsFileSupported] = useState(true);
   const [isDragActive, setIsDragActive] = useState(false);
-
-  // const fetchStates = async () => {
-  //   try {
-  //     const response = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
-  //     setStates(response.data);
-  //   } catch (error) {
-  //     console.error('Erro ao buscar os estados:', error);
-  //   }
-  // };
 
   const fetchStates = async () => {
     try {
@@ -64,15 +53,6 @@ const PostModalContent = ({ onSubmit, onClose }) => {
   useEffect(() => {
     fetchStates();
   }, []);
-
-  // const fetchCities = async (stateId) => {
-  //   try {
-  //     const response = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`);
-  //     setCities(response.data);
-  //   } catch (error) {
-  //     console.error('Erro ao buscar as cidades:', error);
-  //   }
-  // };
 
   const fetchCities = async (stateId) => {
     try {
@@ -128,7 +108,7 @@ const PostModalContent = ({ onSubmit, onClose }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-  
+
     const formDataToSend = new FormData();
     formDataToSend.append('text', formData.text);
     formDataToSend.append('location', `${formData.state} • ${formData.city}`);
@@ -139,7 +119,7 @@ const PostModalContent = ({ onSubmit, onClose }) => {
     formDataToSend.append('media', formData.media);
     formDataToSend.append('animal_type', formData.animal_type);
     formDataToSend.append('animal_size', formData.animal_size);
-  
+
     try {
       const response = await axios.post('http://localhost:8089/post', formDataToSend, {
         headers: {
@@ -156,7 +136,7 @@ const PostModalContent = ({ onSubmit, onClose }) => {
       }
       onClose();
     } catch (error) {
-      toast.error(error.response?.data.message)
+      toast.error(error.response?.data.message);
     }
   };
 
@@ -213,16 +193,12 @@ const PostModalContent = ({ onSubmit, onClose }) => {
                 labelId="state-label"
                 id="state"
                 name="state"
-                value={formData.state}
+                value={states.find(state => state.nome === formData.state)?.id || ''}
                 onChange={(e) => {
                   const selectedState = states.find((state) => state.id === e.target.value);
                   handleInputChange({ target: { name: 'state', value: selectedState.nome } });
                   fetchCities(e.target.value);
                 }}
-                // onChange={(e) => {
-                //   handleInputChange(e);
-                //   fetchCities(e.target.value);
-                // }}
                 required
               >
                 {states.map((state) => (
@@ -240,14 +216,12 @@ const PostModalContent = ({ onSubmit, onClose }) => {
                 labelId="city-label"
                 id="city"
                 name="city"
-                value={formData.city}
+                value={cities.find(city => city.nome === formData.city)?.id || ''}
                 onChange={(e) => {
                   const selectedCity = cities.find((city) => city.id === e.target.value);
                   handleInputChange({ target: { name: 'city', value: selectedCity.nome } });
                 }}
-                // onChange={(e) => {
-                //   handleInputChange(e);
-                // }}
+                disabled={!formData.state}
                 required
               >
                 {cities.map((city) => (
@@ -357,7 +331,6 @@ const PostModalContent = ({ onSubmit, onClose }) => {
           variant="contained"
           color="primary"
           style={{ marginTop: '1rem' }}
-          onClick={handleFormSubmit}
         >
           Criar Postagem
         </Button>
