@@ -93,6 +93,7 @@ export const PostCardContent = ({ post, miniature }) => {
           comments={post.comments}
           likes={post.likes}
           shares={post.shares}
+          miniature={true}
         />
       </>
     )
@@ -115,6 +116,7 @@ export const PostCardContent = ({ post, miniature }) => {
         comments={post.comments}
         likes={post.likes}
         shares={post.shares}
+        miniature={false}
       />
     </>
   )

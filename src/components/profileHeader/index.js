@@ -42,10 +42,8 @@ export default function Profile({
 
   const handleFollowClick = async () => {
     if (followStatus == false) {
-      alert("Aq")
       setFollowerCounter(followingCount)
     } else {
-      alert("lá")
       setFollowerCounter(followingCount-1)
     }
     const newFollowStatus = await handleFollow();

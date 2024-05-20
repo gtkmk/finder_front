@@ -6,7 +6,7 @@ import { useLikeHandler } from '@/hooks/useLikeHandler'
 import { useContext, useState } from 'react'
 import { PostCardContext } from '@/contexts/postCardContext'
 
-export const PostCardActions = ({ postId, comments, likes, shares }) => {
+export const PostCardActions = ({ postId, comments, likes, shares, miniature }) => {
   const { setCommentsOpen } = useContext(PostCardContext)
   const [likesCount, setLikesCount] = useState(likes)
   const { handleLike } = useLikeHandler(postId, 'post', likesCount)
@@ -16,17 +16,48 @@ export const PostCardActions = ({ postId, comments, likes, shares }) => {
     setLikesCount(newLikesCount)
   }
 
+  const actionStyles = {
+    display: 'flex',
+    alignItems: 'center',
+  }
+
+  if (miniature) {
+    return (
+      <CardActions disableSpacing style={{ justifyContent: 'flex-end' }}>
+        <div style={{ ...actionStyles }}>
+          <IconButton aria-label="like">
+            <ThumbUpAltIcon />
+          </IconButton>
+          <Typography variant="body2" color="text.secondary">
+            {likesCount}
+          </Typography>
+        </div>
+
+        <div style={{ ...actionStyles }}>
+          <IconButton aria-label="share">
+            <SendIcon />
+          </IconButton>
+          <Typography variant="body2" color="text.secondary">
+            {shares}
+          </Typography>
+        </div>
+
+        <div style={actionStyles}>
+          <IconButton aria-label="comment">
+            <ChatIcon />
+          </IconButton>
+          <Typography variant="body2" color="text.secondary">
+            {comments}
+          </Typography>
+        </div>
+      </CardActions>
+    )
+  }
+
   return (
     <CardActions disableSpacing style={{ justifyContent: 'space-between' }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            padding: '0 20px',
-            marginRight: '1em',
-          }}
-        >
+        <div style={{ ...actionStyles, marginRight: '1em' }}>
           <IconButton aria-label="like" onClick={handleLikeClick}>
             <ThumbUpAltIcon />
           </IconButton>
@@ -35,9 +66,7 @@ export const PostCardActions = ({ postId, comments, likes, shares }) => {
           </Typography>
         </div>
 
-        <div
-          style={{ display: 'flex', alignItems: 'center', padding: '0 20px' }}
-        >
+        <div style={actionStyles}>
           <IconButton aria-label="share">
             <SendIcon />
           </IconButton>
@@ -47,7 +76,7 @@ export const PostCardActions = ({ postId, comments, likes, shares }) => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', padding: '0 20px' }}>
+      <div style={actionStyles}>
         <IconButton aria-label="comment">
           <ChatIcon onClick={() => setCommentsOpen((prev) => !prev)} />
         </IconButton>

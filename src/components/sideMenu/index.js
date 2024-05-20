@@ -78,7 +78,7 @@ const SideMenu = ({ isOpen, toggleDrawer }) => {
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
-          <ListItemText primary="Settings" />
+          <ListItemText primary="Configurações" />
         </ListItem>
       </List>
       <Box sx={{ flexGrow: 1 }} /> {/* This will push the logout button to the bottom */}
@@ -89,7 +89,7 @@ const SideMenu = ({ isOpen, toggleDrawer }) => {
           onClick={handleLogout}
           startIcon={<LogoutIcon />} // Adicionando o ícone de logout
         >
-          Logout
+          Sair
         </Button>
       </Box>
     </Drawer>

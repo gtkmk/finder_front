@@ -31,8 +31,6 @@ const usePostFormHandler = () => {
         toast.error('Por favor, preencha todos os campos.')
         return
       }
-
-      alert(media)
   
       try {
         const response = await api.post('/post', {

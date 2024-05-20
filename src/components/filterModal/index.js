@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -8,19 +8,22 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
 const FilterModal = ({ open, onClose, type, applyFilters }) => {
-  const [selectedType, setSelectedType] = useState(null);
-  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedType, setSelectedType] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
+
+  useEffect(() => {
+    if (open) {
+      setSelectedType('');
+      setSelectedSize('');
+    }
+  }, [open]);
 
   const handleApplyFilters = () => {
-    // Monta os filtros selecionados
     const filters = {};
     if (selectedType) filters.animalType = selectedType;
     if (selectedSize) filters.animalSize = selectedSize;
 
-    // Aplica os filtros
     applyFilters(filters);
-
-    // Fecha o modal
     onClose();
   };
 
