@@ -5,6 +5,7 @@ import { PostCard } from '@/components/postCard';
 import CreatePostButton from '@/components/createPostButton';
 import FilterModal from '@/components/filterModal'; 
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 // MUI Components
 import Container from '@mui/material/Container';
@@ -13,7 +14,10 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
 export default function Feed() {
-  const { postsData, setFilters } = useGetPosts({ user_id: null });
+  const router = useRouter();
+  const { friends, postId } = router.query;
+
+  const { postsData, setFilters, setEspecificFilters } = useGetPosts({ user_id: null, postId: postId, friends: friends });
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
 

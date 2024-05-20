@@ -46,11 +46,13 @@ export const PostCardHeader = ({
           )}
         </>      
       }
-      title={post_location}
+      title={post.post_location}
       subheader={translatedAnimalType + ' • ' + translatedAnimalSize}
       action={
-        <>
-          <PostActionsMenu post={post} />
+        <div style={{ display: 'flex', alignItems: 'center'}}>
+          {post.is_own_post == 1 &&
+            <PostActionsMenu post={post} />
+          }
           {post.post_reward && (
             <Tooltip title="Possui recompensa" placement="bottom">
               <Image
@@ -81,7 +83,7 @@ export const PostCardHeader = ({
               />
             </Tooltip>
           )}
-        </>
+        </div>
       }
     />
   )

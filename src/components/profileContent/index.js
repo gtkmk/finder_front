@@ -7,8 +7,17 @@ export default function ProfileContent({
     userId,
 }) {
     const theme = useTheme();
-    const { postsData, setFilters } = useGetPosts({ user_id: userId });
+    const isOnwProfile = !userId
+    const { postsData, setFilters, setEspecificFilters } = useGetPosts({ userId, postId: null, friends: null, isOnwProfile });
     const [selectedOption, setSelectedOption] = useState('Postagens');
+
+    useEffect(() => {
+        if (userId) {
+            setEspecificFilters({ user_id: userId });
+        } else {
+            setEspecificFilters({ is_onw_profile: true });
+        }
+    }, []);
 
     const handleOptionChange = (option, lostFoundValue) => {
         setSelectedOption(option);

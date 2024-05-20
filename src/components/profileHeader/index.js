@@ -132,7 +132,7 @@ export default function Profile({
                   </div>
                 </div>
               </Grid>
-              <Grid item xs={bannerGridSize} style={{ padding: '0', backgroundColor: 'red' }}>
+              <Grid item xs={bannerGridSize} style={{ padding: '0' }}>
                 <Base64Image
                     mediaUrl={profileBanner}
                     type="profileBanner"
