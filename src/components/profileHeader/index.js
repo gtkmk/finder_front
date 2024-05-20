@@ -100,7 +100,6 @@ export default function Profile({
             <>
               <Grid item xs={4} style={{ backgroundColor: '#3D3D3D', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0', maxHeight: '395px', marginTop: '2rem' }}>
                 <div style={{ position: 'relative' }}>
-                  {/* <Avatar alt="User Avatar" src={profilePicture} style={{ width: '15rem', height: '15rem', marginBottom: '8px' }} /> */}
                   <Base64Image
                     mediaUrl={profilePicture}
                     type="profileAvatar"
@@ -118,7 +117,6 @@ export default function Profile({
                   )}
                 </div>
                 <Typography variant="h6" style={{ fontWeight: 'bold' }}>{userName}</Typography>
-                {/* <Typography variant="subtitle1">Nick do Usuário</Typography> */}
                 <div style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', marginRight: '16px' }}>
                     <IconButton aria-label="followers" color="primary">
@@ -140,14 +138,6 @@ export default function Profile({
                     type="profileBanner"
                     style={{ height: '100%' }}
                   />
-                {/* <CardMedia 
-                  component="img"
-                  height="100%"
-                  width="100%"
-                  image="/banner.png"
-                  alt="Loading..."
-                  style={{ objectFit: 'cover', minHeight: '395px', maxHeight: '395px' }}
-                /> */}
               </Grid>
             </>
           ) : (

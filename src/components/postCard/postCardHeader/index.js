@@ -2,6 +2,7 @@ import { Base64Image } from '@/components/Image'
 import { CardHeader } from '@mui/material'
 import Image from 'next/image'
 import PostActionsMenu from '../postActionsMenu';
+import Tooltip from '@mui/material/Tooltip';
 
 const translateAnimalType = {
   dog: 'Cachorro',
@@ -51,28 +52,34 @@ export const PostCardHeader = ({
         <>
           <PostActionsMenu post={post} />
           {post.post_reward && (
-            <Image
-              src="/icons/bribe.png"
-              alt="Possui recompensa"
-              width={50}
-              height={50}
-            />
+            <Tooltip title="Possui recompensa" placement="bottom">
+              <Image
+                src="/icons/bribe.png"
+                alt="Possui recompensa"
+                width={50}
+                height={50}
+              />
+            </Tooltip>
           )}
           {post.post_lostFound === 'lost' && (
-            <Image
-              src="/icons/map_lost2.png"
-              alt="Animal perdido"
-              width={50}
-              height={50}
-            />
+            <Tooltip title="Animal perdido" placement="bottom">
+              <Image
+                src="/icons/map_lost2.png"
+                alt="Animal perdido"
+                width={50}
+                height={50}
+              />
+            </Tooltip>
           )}
           {post.post_lostFound === 'found' && (
-            <Image
-              src="/icons/map_found2.png"
-              alt="Animal perdido"
-              width={50}
-              height={50}
-            />
+            <Tooltip title="Animal avistado" placement="bottom">
+              <Image
+                src="/icons/map_found2.png"
+                alt="Animal perdido"
+                width={50}
+                height={50}
+              />
+            </Tooltip>
           )}
         </>
       }
@@ -91,28 +98,34 @@ console.log(post)
           }
           
           {post.post_reward && (
-            <Image
-              src="/icons/bribe.png"
-              alt="Possui recompensa"
-              width={50}
-              height={50}
-            />
+            <Tooltip title="Possui recompensa" placement="bottom">
+              <Image
+                src="/icons/bribe.png"
+                alt="Possui recompensa"
+                width={50}
+                height={50}
+              />
+            </Tooltip>
           )}
           {post.post_lostFound === 'lost' && (
-            <Image
-              src="/icons/map_lost2.png"
-              alt="Animal perdido"
-              width={50}
-              height={50}
-            />
+            <Tooltip title="Animal perdido" placement="bottom">
+              <Image
+                src="/icons/map_lost2.png"
+                alt="Animal perdido"
+                width={50}
+                height={50}
+              />
+            </Tooltip>
           )}
           {post.post_lostFound === 'found' && (
-            <Image
-              src="/icons/map_found2.png"
-              alt="Animal perdido"
-              width={50}
-              height={50}
-            />
+            <Tooltip title="Animal avistado" placement="bottom">
+              <Image
+                src="/icons/map_found2.png"
+                alt="Animal perdido"
+                width={50}
+                height={50}
+              />
+            </Tooltip>
           )}
         </div>
       }
