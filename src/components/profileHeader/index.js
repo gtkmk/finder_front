@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import { CardMedia } from '@mui/material';
+import { Alert, CardMedia } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -35,19 +35,14 @@ export default function Profile({
 
   const [bannerGridSize, setBannerGridSize] = useState(8);
   const [isWideScreen, setIsWideScreen] = useState(false);
-  const [followerCounter, setFollowerCounter] = useState(followingCount);
-
+  const [followersCounter, setFollowersCounter] = useState(followingCount);
   const { handleFollow } = useFollowHandler(userId);
-  const [ followStatus, setFollowStatus ] = useState(isFollowed);  
+  const [followStatus, setFollowStatus] = useState(isFollowed);
 
   const handleFollowClick = async () => {
-    if (followStatus == false) {
-      setFollowerCounter(followingCount)
-    } else {
-      setFollowerCounter(followingCount-1)
-    }
     const newFollowStatus = await handleFollow();
-    setFollowStatus(newFollowStatus)
+    setFollowStatus(newFollowStatus);
+    setFollowersCounter(prevCount => newFollowStatus ? prevCount + 1 : prevCount - 1);
   };
 
   const containerStyle = {
@@ -73,7 +68,7 @@ export default function Profile({
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', handleResize);
       handleResize();
-  
+
       return () => {
         window.removeEventListener('resize', handleResize);
       };
@@ -120,7 +115,7 @@ export default function Profile({
                     <IconButton aria-label="followers" color="primary">
                       <PeopleAltIcon />
                     </IconButton>
-                    <Typography variant="body2">{followerCounter} Seguidores</Typography>
+                    <Typography variant="body2">{followersCounter} Seguidores</Typography>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <IconButton aria-label="following" color="primary">
@@ -174,13 +169,13 @@ export default function Profile({
                         <IconButton aria-label="followers" color="primary">
                           <PeopleAltIcon />
                         </IconButton>
-                        <Typography variant="body2">{followersCount} Seguidores</Typography>
+                        <Typography variant="body2">{followersCounter} Seguidores</Typography>
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center' }}>
                         <IconButton aria-label="following" color="primary">
                           <PersonIcon />
                         </IconButton>
-                        <Typography variant="body2">{followingCount} Seguidores</Typography>
+                        <Typography variant="body2">{followersCount} Seguindo</Typography>
                       </div>
                     </div>
                   </div>

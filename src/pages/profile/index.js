@@ -10,6 +10,8 @@ const ProfilePage = () => {
   const userId = extractUserId(router.asPath);
   const { userData } = useGetUser(userId);
 
+  console.log(userData);
+
   function extractUserId(url) {
     const startIndex = url.indexOf('userId=') + 7;
     const endIndex =

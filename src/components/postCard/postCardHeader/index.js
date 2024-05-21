@@ -87,7 +87,7 @@ export const PostCardHeader = ({
       }
     />
   )
-console.log(post)
+
   return (
     <CardHeader
       avatar={<Base64Image mediaUrl={post.post_author_avatar} type="avatar" />}
