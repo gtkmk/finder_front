@@ -213,7 +213,6 @@ const PostPatchModalContent = ({ postInfo, onClose }) => {
                                 name="lost_found"
                                 value={formData.lost_found}
                                 onChange={handleInputChange}
-                                required
                             >
                                 {postParamsData.LostAndFoundStatus ? (
                                     Object.entries(postParamsData.LostAndFoundStatus).map(([key, value]) => (

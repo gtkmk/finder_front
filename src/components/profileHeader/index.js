@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import { CardMedia } from '@mui/material';
+import { Alert, CardMedia } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -13,6 +13,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import AddIcon from '@mui/icons-material/Add';
 import { Base64Image } from '@/components/Image';
 import { useFollowHandler } from '@/hooks/useFollowHandler'
+import { capitalizeFirstLetters } from '@/helpers/string/capitalizeFirstLetters';
 
 export default function Profile({
     userId,
@@ -35,21 +36,14 @@ export default function Profile({
 
   const [bannerGridSize, setBannerGridSize] = useState(8);
   const [isWideScreen, setIsWideScreen] = useState(false);
-  const [followerCounter, setFollowerCounter] = useState(followingCount);
-
+  const [followersCounter, setFollowersCounter] = useState(followingCount);
   const { handleFollow } = useFollowHandler(userId);
-  const [ followStatus, setFollowStatus ] = useState(isFollowed);  
+  const [followStatus, setFollowStatus] = useState(isFollowed);
 
   const handleFollowClick = async () => {
-    if (followStatus == false) {
-      alert("Aq")
-      setFollowerCounter(followingCount)
-    } else {
-      alert("lá")
-      setFollowerCounter(followingCount-1)
-    }
     const newFollowStatus = await handleFollow();
-    setFollowStatus(newFollowStatus)
+    setFollowStatus(newFollowStatus);
+    setFollowersCounter(prevCount => newFollowStatus ? prevCount + 1 : prevCount - 1);
   };
 
   const containerStyle = {
@@ -75,7 +69,7 @@ export default function Profile({
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', handleResize);
       handleResize();
-  
+
       return () => {
         window.removeEventListener('resize', handleResize);
       };
@@ -94,13 +88,28 @@ export default function Profile({
 
   return (
     <div>
+      <Typography variant="h6" style={{
+        margin: '0',
+        padding: '0',
+        position: 'fixed',
+        top: '1rem',
+        zIndex: 1000,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontWeight: 'bold', 
+        color: 'white',
+      }}>
+        {capitalizeFirstLetters(name)}
+      </Typography>
       <Container style={containerStyle}>
         <Grid container spacing={3} style={{ margin: '0', display: 'flex' }}>
           {isWideScreen ? (
             <>
               <Grid item xs={4} style={{ backgroundColor: '#3D3D3D', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0', maxHeight: '395px', marginTop: '2rem' }}>
                 <div style={{ position: 'relative' }}>
-                  {/* <Avatar alt="User Avatar" src={profilePicture} style={{ width: '15rem', height: '15rem', marginBottom: '8px' }} /> */}
                   <Base64Image
                     mediaUrl={profilePicture}
                     type="profileAvatar"
@@ -118,13 +127,12 @@ export default function Profile({
                   )}
                 </div>
                 <Typography variant="h6" style={{ fontWeight: 'bold' }}>{userName}</Typography>
-                {/* <Typography variant="subtitle1">Nick do Usuário</Typography> */}
                 <div style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', marginRight: '16px' }}>
                     <IconButton aria-label="followers" color="primary">
                       <PeopleAltIcon />
                     </IconButton>
-                    <Typography variant="body2">{followerCounter} Seguidores</Typography>
+                    <Typography variant="body2">{followersCounter} Seguidores</Typography>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <IconButton aria-label="following" color="primary">
@@ -134,20 +142,12 @@ export default function Profile({
                   </div>
                 </div>
               </Grid>
-              <Grid item xs={bannerGridSize} style={{ padding: '0', backgroundColor: 'red' }}>
+              <Grid item xs={bannerGridSize} style={{ padding: '0' }}>
                 <Base64Image
                     mediaUrl={profileBanner}
                     type="profileBanner"
                     style={{ height: '100%' }}
                   />
-                {/* <CardMedia 
-                  component="img"
-                  height="100%"
-                  width="100%"
-                  image="/banner.png"
-                  alt="Loading..."
-                  style={{ objectFit: 'cover', minHeight: '395px', maxHeight: '395px' }}
-                /> */}
               </Grid>
             </>
           ) : (
@@ -186,13 +186,13 @@ export default function Profile({
                         <IconButton aria-label="followers" color="primary">
                           <PeopleAltIcon />
                         </IconButton>
-                        <Typography variant="body2">{followersCount} Seguidores</Typography>
+                        <Typography variant="body2">{followersCounter} Seguidores</Typography>
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center' }}>
                         <IconButton aria-label="following" color="primary">
                           <PersonIcon />
                         </IconButton>
-                        <Typography variant="body2">{followingCount} Seguidores</Typography>
+                        <Typography variant="body2">{followersCount} Seguindo</Typography>
                       </div>
                     </div>
                   </div>
@@ -202,6 +202,18 @@ export default function Profile({
           )}
         </Grid>
       </Container>
+      <style jsx>{`
+        .fixedUserName {
+          position: fixed;
+          top: 0;
+          width: 100%;
+          background-color: #3D3D3D;
+          color: white;
+          text-align: center;
+          padding: 10px 0;
+          z-index: 1000;
+        }
+      `}</style>
     </div>
   );
 }

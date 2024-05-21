@@ -7,7 +7,9 @@ const useGetUser = (userId) => {
 
   const fetchUserData = async () => {
     try {
-      const response = await api.get(`/user?user-id=${userId}`, {
+      const query = userId != null ? `/user?user-id=${userId}` : '/user';
+
+      const response = await api.get(query, {
         withCredentials: true,
       });
 
@@ -20,9 +22,7 @@ const useGetUser = (userId) => {
   };
 
   useEffect(() => {
-    if (userId) {
-      fetchUserData();
-    }
+    fetchUserData();
   }, [userId]);
 
   return {

@@ -10,13 +10,19 @@ const ProfilePage = () => {
   const userId = extractUserId(router.asPath);
   const { userData } = useGetUser(userId);
 
+  console.log(userData);
+
   function extractUserId(url) {
     const startIndex = url.indexOf('userId=') + 7;
     const endIndex =
       url.indexOf('&', startIndex) !== -1
         ? url.indexOf('&', startIndex)
         : url.length;
-    const userId = url.slice(startIndex, endIndex);
+    let userId = url.slice(startIndex, endIndex);
+    if (userId.length < 10) {
+      userId = null
+    }
+
     return userId;
   }
 
