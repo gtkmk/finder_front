@@ -17,7 +17,23 @@ export default function Feed() {
   const router = useRouter();
   const { friends, postId } = router.query;
 
-  const { postsData, setFilters, setEspecificFilters } = useGetPosts({ user_id: null, postId: postId, friends: friends });
+  const friendsOnly = extractFriendsOnlyStatus(router.asPath);
+
+  function extractFriendsOnlyStatus(url) {
+    const startIndex = url.indexOf('friends=') + 8;
+    const endIndex =
+      url.indexOf('&', startIndex) !== -1
+        ? url.indexOf('&', startIndex)
+        : url.length;
+    let isFriend = url.slice(startIndex, endIndex);
+    if (isFriend.length > 1) {
+      isFriend = null
+    }
+
+    return isFriend;
+  }
+
+  const { postsData, setFilters, setEspecificFilters } = useGetPosts({ user_id: null, postId: postId, friends: friendsOnly });
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
 

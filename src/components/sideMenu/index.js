@@ -6,6 +6,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
+import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout'; // Importando o ícone de logout
 import Button from '@mui/material/Button';
@@ -67,6 +68,12 @@ const SideMenu = ({ isOpen, toggleDrawer }) => {
             <HomeIcon />
           </ListItemIcon>
           <ListItemText primary="Página inicial" />
+        </ListItem>
+        <ListItem button onClick={() => handleNavigation('/feed?friends=1')}>
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Postagens de amigos" />
         </ListItem>
         <ListItem button onClick={() => handleNavigation('/profile')}>
           <ListItemIcon>

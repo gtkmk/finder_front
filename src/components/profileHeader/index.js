@@ -13,6 +13,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import AddIcon from '@mui/icons-material/Add';
 import { Base64Image } from '@/components/Image';
 import { useFollowHandler } from '@/hooks/useFollowHandler'
+import { capitalizeFirstLetters } from '@/helpers/string/capitalizeFirstLetters';
 
 export default function Profile({
     userId,
@@ -87,6 +88,22 @@ export default function Profile({
 
   return (
     <div>
+      <Typography variant="h6" style={{
+        margin: '0',
+        padding: '0',
+        position: 'fixed',
+        top: '1rem',
+        zIndex: 1000,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontWeight: 'bold', 
+        color: 'white',
+      }}>
+        {capitalizeFirstLetters(name)}
+      </Typography>
       <Container style={containerStyle}>
         <Grid container spacing={3} style={{ margin: '0', display: 'flex' }}>
           {isWideScreen ? (
@@ -185,6 +202,18 @@ export default function Profile({
           )}
         </Grid>
       </Container>
+      <style jsx>{`
+        .fixedUserName {
+          position: fixed;
+          top: 0;
+          width: 100%;
+          background-color: #3D3D3D;
+          color: white;
+          text-align: center;
+          padding: 10px 0;
+          z-index: 1000;
+        }
+      `}</style>
     </div>
   );
 }

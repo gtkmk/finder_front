@@ -72,7 +72,7 @@ export const useGetPosts = ({ userId, postId, friends, isOnwProfile }) => {
 
     useEffect(() => {
       fetchPostsData();
-  }, [especificFilters]);
+    }, [especificFilters]);
 
     return {
         postsData,

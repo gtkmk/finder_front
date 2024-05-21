@@ -1,6 +1,7 @@
 import { Base64Image } from '@/components/Image'
-import { CardHeader } from '@mui/material'
+import { CardHeader, Typography } from '@mui/material'
 import Image from 'next/image'
+import Link from 'next/link'
 import PostActionsMenu from '../postActionsMenu';
 import Tooltip from '@mui/material/Tooltip';
 
@@ -21,8 +22,8 @@ export const PostCardHeader = ({
   post,
   miniature,
 }) => {
-  const translatedAnimalType = translateAnimalType[post.post_animal_type] || post_animal_type;
-  const translatedAnimalSize = translateAnimalSize[post.post_animal_size] || post_animal_size;
+  const translatedAnimalType = translateAnimalType[post.post_animal_type] || post.post_animal_type;
+  const translatedAnimalSize = translateAnimalSize[post.post_animal_size] || post.post_animal_size;
 
   if (miniature) return (
     <CardHeader
@@ -39,7 +40,7 @@ export const PostCardHeader = ({
           {post.post_lostFound === 'found' && (
             <Image
               src="/icons/map_found2.png"
-              alt="Animal perdido"
+              alt="Animal avistado"
               width={50}
               height={50}
             />
@@ -77,7 +78,7 @@ export const PostCardHeader = ({
             <Tooltip title="Animal avistado" placement="bottom">
               <Image
                 src="/icons/map_found2.png"
-                alt="Animal perdido"
+                alt="Animal avistado"
                 width={50}
                 height={50}
               />
@@ -90,8 +91,20 @@ export const PostCardHeader = ({
 
   return (
     <CardHeader
-      avatar={<Base64Image mediaUrl={post.post_author_avatar} type="avatar" />}
-      title={post.post_author_username}
+      avatar={
+        <Link href={`/profile?userId=${post.post_author_id}`} legacyBehavior>
+          <a style={{ textDecoration: 'none' }}>
+            <Base64Image mediaUrl={post.post_author_avatar} type="avatar" />
+          </a>
+        </Link>
+      }
+      title={
+        <Link href={`/profile?userId=${post.post_author_id}`} legacyBehavior>
+          <a style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Typography>{post.post_author_username}</Typography>
+          </a>
+        </Link>
+      }
       subheader={post.post_location + ' - Tipo de animal: ' + translatedAnimalType + ' - Tamanho: ' + translatedAnimalSize}
       action={
         <div style={{ display: 'flex', alignItems: 'center'}}>
@@ -123,7 +136,7 @@ export const PostCardHeader = ({
             <Tooltip title="Animal avistado" placement="bottom">
               <Image
                 src="/icons/map_found2.png"
-                alt="Animal perdido"
+                alt="Animal avistado"
                 width={50}
                 height={50}
               />
