@@ -44,8 +44,13 @@ export const PostCardActions = ({ post, miniature }) => {
     p: 4,
   };
 
+  const createFujonesMessage = (post) => {
+    const status = post.lostFound === 'lost' ? 'perdido' : 'encontrado';
+    return `Na plataforma Fujões, estamos sempre aqui para ajudar a reunir animais de estimação com seus donos. Temos novas informações sobre um animal que foi ${status} na região de ${post.post_location}.\n\nDetalhes da publicação:\n\n${post.text}`;
+  };
+
   const shareOnSocialMedia = async (platform) => {
-    const text = post.text;
+    const text = createFujonesMessage(post)
     const image = `data:image/jpeg;base64,${imageBase64}`;
 
     const response = await fetch(image);
@@ -58,14 +63,6 @@ export const PostCardActions = ({ post, miniature }) => {
         window.open(facebookUrl, '_blank');
         break;
       case 'instagram':
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(file);
-        link.download = 'image.jpg';
-        link.click();
-        navigator.clipboard.writeText(text);
-        alert('Imagem baixada e texto copiado para a área de transferência. Abra o Instagram e cole o texto.');
-        break;
-      case 'whatsapp':
         if (navigator.share) {
           navigator.share({
             title: 'Post',
@@ -74,9 +71,17 @@ export const PostCardActions = ({ post, miniature }) => {
           })
           .catch((error) => console.error('Error sharing:', error));
         } else {
-          const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
-          window.open(whatsappUrl, '_blank');
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(file);
+          link.download = 'image.jpg';
+          link.click();
+          navigator.clipboard.writeText(text);
+          alert('Imagem baixada e texto copiado para a área de transferência. Abra o Instagram e cole o texto.');
+          break;
         }
+      case 'whatsapp':
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+        window.open(whatsappUrl, '_blank');
         break;
       default:
         console.log('Plataforma de compartilhamento não suportada');
