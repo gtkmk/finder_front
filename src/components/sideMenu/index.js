@@ -62,28 +62,28 @@ const SideMenu = ({ isOpen, toggleDrawer }) => {
       <div style={{ textAlign: 'center', padding: '20px' }}>
         <img src="/logo/Logo Vertical - Png - Com cor .png" alt="Logo" style={{ maxWidth: '130px', height: 'auto' }} />
       </div>
-      <List>
+      <List sx={{ color: 'white' }}>
         <ListItem button onClick={() => handleNavigation('/feed')}>
           <ListItemIcon>
-            <HomeIcon />
+            <HomeIcon style={{ color: 'white' }} />
           </ListItemIcon>
           <ListItemText primary="Página inicial" />
         </ListItem>
         <ListItem button onClick={() => handleNavigation('/feed?friends=1')}>
           <ListItemIcon>
-            <PeopleIcon />
+            <PeopleIcon style={{ color: 'white' }} />
           </ListItemIcon>
           <ListItemText primary="Postagens de amigos" />
         </ListItem>
         <ListItem button onClick={() => handleNavigation('/profile')}>
           <ListItemIcon>
-            <PersonIcon />
+            <PersonIcon  style={{ color: 'white' }} />
           </ListItemIcon>
           <ListItemText primary="Meu perfil" />
         </ListItem>
         <ListItem button onClick={() => handleNavigation('/settings')}>
           <ListItemIcon>
-            <SettingsIcon />
+            <SettingsIcon style={{ color: 'white' }} />
           </ListItemIcon>
           <ListItemText primary="Configurações" />
         </ListItem>

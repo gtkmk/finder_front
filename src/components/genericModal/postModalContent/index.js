@@ -112,7 +112,7 @@ const PostModalContent = ({ onClose }) => {
     const formDataToSend = new FormData();
     formDataToSend.append('text', formData.text);
     formDataToSend.append('location', `${formData.state} • ${formData.city}`);
-    formDataToSend.append('reward', formData.reward);
+    formDataToSend.append('reward', formData.reward || null);
     formDataToSend.append('lost_found', formData.lost_found);
     formDataToSend.append('privacy', formData.privacy);
     formDataToSend.append('category', formData.category);
@@ -234,14 +234,13 @@ const PostModalContent = ({ onClose }) => {
           </Grid>
           <Grid item xs={6}>
             <FormControl fullWidth>
-              <InputLabel id="reward-label">Recompensa *</InputLabel>
+              <InputLabel id="reward-label">Recompensa</InputLabel>
               <Select
                 labelId="reward-label"
                 id="reward"
                 name="reward"
                 value={formData.reward}
                 onChange={handleInputChange}
-                required
               >
                 {postParamsData.AcceptedRewardsOptions ? (
                   Object.entries(postParamsData.AcceptedRewardsOptions).map(([key, value]) => (
@@ -264,7 +263,6 @@ const PostModalContent = ({ onClose }) => {
                 name="lost_found"
                 value={formData.lost_found}
                 onChange={handleInputChange}
-                required
               >
                 {postParamsData.LostAndFoundStatus ? (
                   Object.entries(postParamsData.LostAndFoundStatus).map(([key, value]) => (
