@@ -234,13 +234,14 @@ const PostModalContent = ({ onClose }) => {
           </Grid>
           <Grid item xs={6}>
             <FormControl fullWidth>
-              <InputLabel id="reward-label">Recompensa</InputLabel>
+              <InputLabel id="reward-label">Recompensa *</InputLabel>
               <Select
                 labelId="reward-label"
                 id="reward"
                 name="reward"
                 value={formData.reward}
                 onChange={handleInputChange}
+                required
               >
                 {postParamsData.AcceptedRewardsOptions ? (
                   Object.entries(postParamsData.AcceptedRewardsOptions).map(([key, value]) => (
