@@ -3,7 +3,7 @@ import { useGetPosts } from '@/hooks/useGetPost';
 import { useHandleComments } from '@/hooks/useHandleComments';
 import { PostCard } from '@/components/postCard';
 import CreatePostButton from '@/components/createPostButton';
-import FilterModal from '@/components/filterModal'; 
+import FilterModal from '@/components/filterModal';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
@@ -27,7 +27,7 @@ export default function Feed() {
         : url.length;
     let isFriend = url.slice(startIndex, endIndex);
     if (isFriend.length > 1) {
-      isFriend = null
+      isFriend = null;
     }
 
     return isFriend;
@@ -36,17 +36,31 @@ export default function Feed() {
   const { postsData, setFilters, setEspecificFilters } = useGetPosts({ user_id: null, postId: postId, friends: friendsOnly });
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
+  const [activeFilters, setActiveFilters] = useState({
+    lostFound: null,
+    reward: null,
+    animalType: null,
+    animalSize: null,
+  });
 
   const handleFilterClick = (filter, value) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
       [filter]: prevFilters[filter] === value ? null : value,
     }));
+    setActiveFilters((prevActiveFilters) => ({
+      ...prevActiveFilters,
+      [filter]: prevActiveFilters[filter] === value ? null : value,
+    }));
   };
 
   const applyFilters = (filters) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
+      ...filters,
+    }));
+    setActiveFilters((prevActiveFilters) => ({
+      ...prevActiveFilters,
       ...filters,
     }));
   };
@@ -58,17 +72,38 @@ export default function Feed() {
       animalType: null,
       animalSize: null,
     });
+    setActiveFilters({
+      lostFound: null,
+      reward: null,
+      animalType: null,
+      animalSize: null,
+    });
   };
 
   return (
     <div>
       <Container maxWidth="md">
         <CreatePostButton buttonText="Criar nova postagem" />
-        <Box style={{ position: 'fixed', zIndex: 1000, top: '0.3rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+        <Box
+          style={{
+            position: 'fixed',
+            zIndex: 1000,
+            top: '0.3rem',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '10px',
+          }}
+        >
           <Tooltip title="Filtrar por Achado" placement="bottom">
             <IconButton
               onClick={() => handleFilterClick('lostFound', 'found')}
-              style={{ color: postsData.some((post) => post.lostFound === 'found') ? 'blue' : 'inherit' }}
+              style={{
+                backgroundColor: activeFilters.lostFound === 'found' ? '#92ff00' : '#FFBC01',
+                borderRadius: '50%',
+              }}
             >
               <Image
                 src="/icons/map_found2.png"
@@ -81,7 +116,10 @@ export default function Feed() {
           <Tooltip title="Filtrar por Perdido" placement="bottom">
             <IconButton
               onClick={() => handleFilterClick('lostFound', 'lost')}
-              style={{ color: postsData.some((post) => post.lostFound === 'lost') ? 'blue' : 'inherit' }}
+              style={{
+                backgroundColor: activeFilters.lostFound === 'lost' ? '#92ff00' : '#FFBC01',
+                borderRadius: '50%',
+              }}
             >
               <Image
                 src="/icons/map_lost2.png"
@@ -94,7 +132,10 @@ export default function Feed() {
           <Tooltip title="Filtrar por Recompensa" placement="bottom">
             <IconButton
               onClick={() => handleFilterClick('reward', '1')}
-              style={{ color: postsData.some((post) => post.reward === 1) ? 'blue' : 'inherit' }}
+              style={{
+                backgroundColor: activeFilters.reward === '1' ? '#92ff00' : '#FFBC01',
+                borderRadius: '50%',
+              }}
             >
               <Image
                 src="/icons/bribe.png"
@@ -105,7 +146,16 @@ export default function Feed() {
             </IconButton>
           </Tooltip>
           <Tooltip title="Filtrar por Tipo de Animal" placement="bottom">
-            <IconButton onClick={() => {setShowModal(true), setModalType('type')}}>
+            <IconButton
+              onClick={() => {
+                setShowModal(true);
+                setModalType('type');
+              }}
+              style={{
+                backgroundColor: activeFilters.animalType ? '#92ff00' : '#FFBC01',
+                borderRadius: '50%',
+              }}
+            >
               <Image
                 src="/icons/specie.png"
                 alt="Filtrar por Tipo de Animal"
@@ -115,7 +165,16 @@ export default function Feed() {
             </IconButton>
           </Tooltip>
           <Tooltip title="Filtrar por Tamanho do Animal" placement="bottom">
-            <IconButton onClick={() => {setShowModal(true), setModalType('size')}}>
+            <IconButton
+              onClick={() => {
+                setShowModal(true);
+                setModalType('size');
+              }}
+              style={{
+                backgroundColor: activeFilters.animalSize ? '#92ff00' : '#FFBC01',
+                borderRadius: '50%',
+              }}
+            >
               <Image
                 src="/icons/measure.png"
                 alt="Filtrar por Tamanho do Animal"
@@ -125,7 +184,10 @@ export default function Feed() {
             </IconButton>
           </Tooltip>
           <Tooltip title="Remover Filtros" placement="bottom">
-            <IconButton onClick={clearFilters}>
+            <IconButton
+              onClick={clearFilters}
+              style={{ backgroundColor: '#FFBC01', borderRadius: '50%' }}
+            >
               <Image
                 src="/icons/clean.png"
                 alt="Remover Filtros"
@@ -138,7 +200,12 @@ export default function Feed() {
         {postsData.map((post) => (
           <PostCard key={post.post_id} post={post} miniature={false} />
         ))}
-        <FilterModal open={showModal} onClose={() => setShowModal(false)} type={modalType} applyFilters={applyFilters} />
+        <FilterModal
+          open={showModal}
+          onClose={() => setShowModal(false)}
+          type={modalType}
+          applyFilters={applyFilters}
+        />
       </Container>
     </div>
   );
