@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGetPosts } from '@/hooks/useGetPost';
 import { useHandleComments } from '@/hooks/useHandleComments';
 import { PostCard } from '@/components/postCard';
@@ -41,7 +41,13 @@ export default function Feed() {
     reward: null,
     animalType: null,
     animalSize: null,
+    location: null,
   });
+
+  useEffect(() => {
+    console.log("activeFilters");
+    console.log(activeFilters);
+  }, [activeFilters]);
 
   const handleFilterClick = (filter, value) => {
     setFilters((prevFilters) => ({
@@ -71,12 +77,14 @@ export default function Feed() {
       reward: null,
       animalType: null,
       animalSize: null,
+      location: null,  // Limpar o estado de localização
     });
     setActiveFilters({
       lostFound: null,
       reward: null,
       animalType: null,
       animalSize: null,
+      location: null,  // Limpar o estado de localização
     });
   };
 
@@ -178,6 +186,25 @@ export default function Feed() {
               <Image
                 src="/icons/measure.png"
                 alt="Filtrar por Tamanho do Animal"
+                width={30}
+                height={30}
+              />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Filtrar por Localização" placement="bottom">
+            <IconButton
+              onClick={() => {
+                setShowModal(true);
+                setModalType('location');
+              }}
+              style={{
+                backgroundColor: activeFilters.location ? '#92ff00' : '#FFBC01',
+                borderRadius: '50%',
+              }}
+            >
+              <Image
+                src="/icons/map.png"
+                alt="Filtrar por Localização"
                 width={30}
                 height={30}
               />
