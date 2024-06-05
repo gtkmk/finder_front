@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useGetPosts } from '@/hooks/useGetPost';
-import { useHandleComments } from '@/hooks/useHandleComments';
 import { PostCard } from '@/components/postCard';
 import CreatePostButton from '@/components/createPostButton';
 import FilterModal from '@/components/filterModal';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import axios from 'axios';
+import { Base64Image } from '@/components/Image'
 
 // MUI Components
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import TextField from '@mui/material/TextField';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemText from '@mui/material/ListItemText';
+import SearchIcon from '@mui/icons-material/Search';
 
 export default function Feed() {
   const router = useRouter();
@@ -44,10 +51,46 @@ export default function Feed() {
     location: null,
   });
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearchActive, setIsSearchActive] = useState(false);
+  const [searchFieldStyles, setSearchFieldStyles] = useState({
+    marginBottom: '0',
+    width: '170px',
+  });
+
   useEffect(() => {
-    console.log("activeFilters");
-    console.log(activeFilters);
-  }, [activeFilters]);
+    if (searchQuery) {
+      const fetchSearchResults = async () => {
+        try {
+          const response = await axios.get(`http://localhost:8089/users?name=${searchQuery}`, {
+            withCredentials: true,
+          });
+          setSearchResults(response.data.data);
+        } catch (error) {
+          console.error('Erro ao buscar usuários:', error);
+        }
+      };
+      fetchSearchResults();
+    } else {
+      setSearchResults([]);
+    }
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (isSearchActive) {
+      setSearchFieldStyles({
+        marginBottom: '10px',
+        marginTop: '10px',
+        width: '300px',
+      });
+    } else {
+      setSearchFieldStyles({
+        marginBottom: '0',
+        width: '170px',
+      });
+    }
+  }, [isSearchActive]);
 
   const handleFilterClick = (filter, value) => {
     setFilters((prevFilters) => ({
@@ -77,21 +120,23 @@ export default function Feed() {
       reward: null,
       animalType: null,
       animalSize: null,
-      location: null,  // Limpar o estado de localização
+      location: null,
     });
     setActiveFilters({
       lostFound: null,
       reward: null,
       animalType: null,
       animalSize: null,
-      location: null,  // Limpar o estado de localização
+      location: null,
     });
   };
 
   return (
     <div>
       <Container maxWidth="md">
-        <CreatePostButton buttonText="Criar nova postagem" />
+        {!isSearchActive && (
+          <CreatePostButton buttonText="Criar nova postagem" />
+        )}
         <Box
           style={{
             position: 'fixed',
@@ -100,140 +145,204 @@ export default function Feed() {
             left: '50%',
             transform: 'translateX(-50%)',
             display: 'flex',
+            flexDirection: isSearchActive ? 'column' : 'row',
             alignItems: 'center',
             justifyContent: 'center',
             gap: '10px',
           }}
         >
-          <Tooltip title="Filtrar por Achado" placement="bottom">
-            <IconButton
-              onClick={() => handleFilterClick('lostFound', 'found')}
-              style={{
-                backgroundColor: activeFilters.lostFound === 'found' ? '#92ff00' : '#FFBC01',
-                borderRadius: '50%',
-              }}
-            >
-              <Image
-                src="/icons/map_found2.png"
-                alt="Animal encontrado"
-                width={30}
-                height={30}
-              />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Filtrar por Perdido" placement="bottom">
-            <IconButton
-              onClick={() => handleFilterClick('lostFound', 'lost')}
-              style={{
-                backgroundColor: activeFilters.lostFound === 'lost' ? '#92ff00' : '#FFBC01',
-                borderRadius: '50%',
-              }}
-            >
-              <Image
-                src="/icons/map_lost2.png"
-                alt="Animal perdido"
-                width={30}
-                height={30}
-              />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Filtrar por Recompensa" placement="bottom">
-            <IconButton
-              onClick={() => handleFilterClick('reward', '1')}
-              style={{
-                backgroundColor: activeFilters.reward === '1' ? '#92ff00' : '#FFBC01',
-                borderRadius: '50%',
-              }}
-            >
-              <Image
-                src="/icons/bribe.png"
-                alt="Possui recompensa"
-                width={35}
-                height={35}
-              />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Filtrar por Tipo de Animal" placement="bottom">
-            <IconButton
-              onClick={() => {
-                setShowModal(true);
-                setModalType('type');
-              }}
-              style={{
-                backgroundColor: activeFilters.animalType ? '#92ff00' : '#FFBC01',
-                borderRadius: '50%',
-              }}
-            >
-              <Image
-                src="/icons/specie.png"
-                alt="Filtrar por Tipo de Animal"
-                width={30}
-                height={30}
-              />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Filtrar por Tamanho do Animal" placement="bottom">
-            <IconButton
-              onClick={() => {
-                setShowModal(true);
-                setModalType('size');
-              }}
-              style={{
-                backgroundColor: activeFilters.animalSize ? '#92ff00' : '#FFBC01',
-                borderRadius: '50%',
-              }}
-            >
-              <Image
-                src="/icons/measure.png"
-                alt="Filtrar por Tamanho do Animal"
-                width={30}
-                height={30}
-              />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Filtrar por Localização" placement="bottom">
-            <IconButton
-              onClick={() => {
-                setShowModal(true);
-                setModalType('location');
-              }}
-              style={{
-                backgroundColor: activeFilters.location ? '#92ff00' : '#FFBC01',
-                borderRadius: '50%',
-              }}
-            >
-              <Image
-                src="/icons/map.png"
-                alt="Filtrar por Localização"
-                width={30}
-                height={30}
-              />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Remover Filtros" placement="bottom">
-            <IconButton
-              onClick={clearFilters}
-              style={{ backgroundColor: '#FFBC01', borderRadius: '50%' }}
-            >
-              <Image
-                src="/icons/clean.png"
-                alt="Remover Filtros"
-                width={30}
-                height={30}
-              />
-            </IconButton>
-          </Tooltip>
+          <TextField
+            variant="outlined"
+            placeholder="Buscar usuário"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setIsSearchActive(true)}
+            onBlur={() => setTimeout(() => setIsSearchActive(false), 600)}
+            InputProps={{
+              startAdornment: (
+                <SearchIcon style={{ color: 'gray' }} />
+              ),
+              style: {
+                borderRadius: 20,
+                padding: '8px 12px',
+                height: '36px',
+                backgroundColor: 'white',
+              },
+            }}
+            style={searchFieldStyles}
+          />
+          {!isSearchActive && (
+            <>
+              <Tooltip title="Filtrar por Achado" placement="bottom">
+                <IconButton
+                  onClick={() => handleFilterClick('lostFound', 'found')}
+                  style={{
+                    backgroundColor: activeFilters.lostFound === 'found' ? '#92ff00' : '#FFBC01',
+                    borderRadius: '50%',
+                  }}
+                >
+                  <Image
+                    src="/icons/map_found2.png"
+                    alt="Animal encontrado"
+                    width={30}
+                    height={30}
+                  />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Filtrar por Perdido" placement="bottom">
+                <IconButton
+                  onClick={() => handleFilterClick('lostFound', 'lost')}
+                  style={{
+                    backgroundColor: activeFilters.lostFound === 'lost' ? '#92ff00' : '#FFBC01',
+                    borderRadius: '50%',
+                  }}
+                >
+                  <Image
+                    src="/icons/map_lost2.png"
+                    alt="Animal perdido"
+                    width={30}
+                    height={30}
+                  />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Filtrar por Recompensa" placement="bottom">
+                <IconButton
+                  onClick={() => handleFilterClick('reward', '1')}
+                  style={{
+                    backgroundColor: activeFilters.reward === '1' ? '#92ff00' : '#FFBC01',
+                    borderRadius: '50%',
+                  }}
+                >
+                  <Image
+                    src="/icons/bribe.png"
+                    alt="Possui recompensa"
+                    width={35}
+                    height={35}
+                  />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Filtrar por Tipo de Animal" placement="bottom">
+                <IconButton
+                  onClick={() => {
+                    setShowModal(true);
+                    setModalType('type');
+                  }}
+                  style={{
+                    backgroundColor: activeFilters.animalType ? '#92ff00' : '#FFBC01',
+                    borderRadius: '50%',
+                  }}
+                >
+                  <Image
+                    src="/icons/specie.png"
+                    alt="Filtrar por Tipo de Animal"
+                    width={30}
+                    height={30}
+                  />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Filtrar por Tamanho do Animal" placement="bottom">
+                <IconButton
+                  onClick={() => {
+                    setShowModal(true);
+                    setModalType('size');
+                  }}
+                  style={{
+                    backgroundColor: activeFilters.animalSize ? '#92ff00' : '#FFBC01',
+                    borderRadius: '50%',
+                  }}
+                >
+                  <Image
+                    src="/icons/measure.png"
+                    alt="Filtrar por Tamanho do Animal"
+                    width={30}
+                    height={30}
+                  />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Filtrar por Localização" placement="bottom">
+                <IconButton
+                  onClick={() => {
+                    setShowModal(true);
+                    setModalType('location');
+                  }}
+                  style={{
+                    backgroundColor: activeFilters.location ? '#92ff00' : '#FFBC01',
+                    borderRadius: '50%',
+                  }}
+                >
+                  <Image
+                    src="/icons/map.png"
+                    alt="Filtrar por Localização"
+                    width={30}
+                    height={30}
+                  />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Remover Filtros" placement="bottom">
+                <IconButton
+                  onClick={clearFilters}
+                  style={{ backgroundColor: '#FFBC01', borderRadius: '50%' }}
+                >
+                  <Image
+                    src="/icons/clean.png"
+                    alt="Remover Filtros"
+                    width={30}
+                    height={30}
+                  />
+                </IconButton>
+              </Tooltip>
+            </>
+          )}
         </Box>
-        {postsData.map((post) => (
-          <PostCard key={post.post_id} post={post} miniature={false} />
+        {isSearchActive && (
+          <List style={{
+            backgroundColor: '#f9f9f9',
+            borderRadius: '15px 15px 15px 15px',
+          }}>
+            {searchResults.map((user) => (
+              <SearchResultItem key={user.id} user={user} />
+            ))}
+          </List>
+        )}
+        {!isSearchActive && postsData && postsData.map((post) => (
+          <PostCard key={post.id} post={post} />
         ))}
-        <FilterModal
-          open={showModal}
-          onClose={() => setShowModal(false)}
-          type={modalType}
-          applyFilters={applyFilters}
-        />
+        {/* <FilterModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          modalType={modalType}
+          setFilters={applyFilters}
+          activeFilters={activeFilters}
+          setEspecificFilters={setEspecificFilters}
+        /> */}
+
+        <FilterModal open={showModal} onClose={() => setShowModal(false)} type={modalType} applyFilters={applyFilters} />
       </Container>
     </div>
   );
 }
+
+const SearchResultItem = ({ user }) => {
+  const router = useRouter();
+
+  const handleUserClick = () => {
+    router.push(`http://localhost:3000/profile?userId=${user.id}`);
+  };
+
+  return (
+    <>
+        <ListItem 
+          button 
+          onClick={handleUserClick}
+          style={{
+            borderBottom: '1px solid #e0e0e0',
+          }}
+        >
+          <ListItemAvatar>
+            <Base64Image mediaUrl={user.profilePicture} type="avatar" />
+          </ListItemAvatar>
+          <ListItemText primary={user.name} />
+        </ListItem>
+    </>
+  );
+};
