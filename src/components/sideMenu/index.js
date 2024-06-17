@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -15,8 +15,15 @@ import { useRouter } from 'next/router';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material';
 import { useLogoutHandler } from "@/hooks/useLogoutHandler";
+import GenericModal from '../genericModal';
+import ConfigModalContent from '../genericModal/configModalContent';
 
 const SideMenu = ({ isOpen, toggleDrawer }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
   const { handleLogout } = useLogoutHandler();
 
   const theme = useTheme();
@@ -27,8 +34,8 @@ const SideMenu = ({ isOpen, toggleDrawer }) => {
   const isMediumScreen = useMediaQuery('(min-width:620px)');
 
   const handleNavigation = (route) => {
-    router.push(route);
-    toggleDrawer(); // Fecha o menu lateral após clicar em um item
+    window.location.href = route;
+    toggleDrawer();
   };
 
   const getImageWidth = () => {
@@ -81,12 +88,17 @@ const SideMenu = ({ isOpen, toggleDrawer }) => {
           </ListItemIcon>
           <ListItemText primary="Meu perfil" />
         </ListItem>
-        <ListItem button onClick={() => handleNavigation('/settings')}>
+        <ListItem button  onClick={handleOpenModal}>
           <ListItemIcon>
             <SettingsIcon style={{ color: 'white' }} />
           </ListItemIcon>
           <ListItemText primary="Configurações" />
         </ListItem>
+        <GenericModal isOpen={isModalOpen} onClose={handleCloseModal}>
+          <ConfigModalContent
+              onClose={handleCloseModal}
+          />
+        </GenericModal>
       </List>
       <Box sx={{ flexGrow: 1 }} /> {/* This will push the logout button to the bottom */}
       <Box sx={{ textAlign: 'center', padding: '20px' }}>
