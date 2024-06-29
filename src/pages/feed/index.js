@@ -63,7 +63,7 @@ export default function Feed() {
     if (searchQuery) {
       const fetchSearchResults = async () => {
         try {
-          const response = await axios.get(`http://localhost:8089/users?name=${searchQuery}`, {
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users?name=${searchQuery}`, {
             withCredentials: true,
           });
           setSearchResults(response.data.data);
