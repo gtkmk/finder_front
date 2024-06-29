@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}`,
+  baseURL: `http://34.125.28.161:8089`,
 })
 
 api.interceptors.response.use(undefined, function onResponseError(error) {

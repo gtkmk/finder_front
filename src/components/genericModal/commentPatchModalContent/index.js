@@ -26,7 +26,7 @@ const CommentPatchModalContent = ({ commentId, text, onClose }) => {
         formDataToSend.append('text', formData.text);
 
         try {
-            const response = await axios.patch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/comment?comment-id=${commentId}`, formDataToSend, {
+            const response = await axios.patch(`http://34.125.28.161:8089/comment?comment-id=${commentId}`, formDataToSend, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',

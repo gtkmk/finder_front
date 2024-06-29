@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 export const useFoundStatusHandler = (postId, foundStatus) => {
   const handleFound = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/post/animal-found?post-id=${postId}`, {
+      const response = await fetch(`http://34.125.28.161:8089/post/animal-found?post-id=${postId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
