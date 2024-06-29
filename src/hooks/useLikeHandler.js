@@ -6,16 +6,31 @@ export const useLikeHandler = (contentId, likeType, likes) => {
 
   const handleLike = async () => {
     try {
-      const response = await api.post(
-        '/like',
-        {
-          like_type: likeType,
-          post_id: contentId,
-        },
-        {
-          withCredentials: true,
-        }
-      )
+      let response = null
+
+      if (likeType === 'comment') {
+        response = await api.post(
+          '/like',
+          {
+            like_type: likeType,
+            comment_id: contentId,
+          },
+          {
+            withCredentials: true,
+          }
+        )
+      } else if (likeType === 'post') {
+        response = await api.post(
+          '/like',
+          {
+            like_type: likeType,
+            post_id: contentId,
+          },
+          {
+            withCredentials: true,
+          }
+        )
+      }
 
       if (response.status == 200) {
         return response.data.likesCount

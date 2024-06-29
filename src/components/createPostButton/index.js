@@ -11,49 +11,41 @@ const CreatePostButton = ({ buttonText }) => {
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
 
-    const handleCreatePost = (formData) => {
-        console.log('Dados do formulário:', formData);
-    };
-
     useEffect(() => {
       const handleResize = () => {
-        setIsWideScreen(window.innerWidth >= 1350);
+        setIsWideScreen(window.innerWidth >= 1600);
       };
-  
+
       window.addEventListener('resize', handleResize);
       handleResize();
-  
+
       return () => {
         window.removeEventListener('resize', handleResize);
       };
     }, []);
 
     const buttonStyle = {
-      position: 'absolute',
       padding: '10px',
       color: '#fff',
       borderRadius: '20px',
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
-      top: '1rem',
       left: '1rem',
     };
 
     if (isWideScreen) {
-        buttonStyle.position = 'fixed';
-        delete buttonStyle.marginBottom;
+        buttonStyle.position = 'absolute';
       } else {
         delete buttonStyle.position;
         delete buttonStyle.left;
-        buttonStyle.marginBottom = '1.5rem';
       }
-  
+
     const textStyle = {
       fontSize: '18px',
       fontWeight: 'bold',
     };
-  
+
     return (
         <div>
             <Button style={buttonStyle} startIcon={<AddIcon />} variant="contained" onClick={handleOpenModal}>
@@ -61,7 +53,6 @@ const CreatePostButton = ({ buttonText }) => {
             </Button>
             <GenericModal isOpen={isModalOpen} onClose={handleCloseModal}>
                 <PostModalContent
-                    onSubmit={handleCreatePost}
                     onClose={handleCloseModal}
                 />
             </GenericModal>
