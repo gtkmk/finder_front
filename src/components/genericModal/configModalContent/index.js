@@ -56,7 +56,7 @@ const ConfigModalContent = ({ onClose, userId }) => {
     formData.append('media', file);
     formData.append('type', type);
 
-    axios.patch('http://localhost:8089/document/changeProfileImage', formData, {
+    axios.patch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/document/changeProfileImage`, formData, {
       withCredentials: true,
       headers: {
         'Content-Type': 'multipart/form-data'
