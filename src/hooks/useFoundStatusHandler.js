@@ -3,26 +3,29 @@ import { useState } from 'react'
 import { toast } from 'react-toastify'
 
 export const useFoundStatusHandler = (postId, foundStatus) => {
-
   const handleFound = async () => {
     try {
-        let queryString = '/post/animal-found';
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/post/animal-found?post-id=${postId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      })
 
-        queryString += `?post-id=${postId}&found=${foundStatus}`;
+      const data = await response.json()
 
-        const response = await api.post(queryString, {
-            withCredentials: true,
-        });
-
-      if (response.status >= 200) {
-        toast.success(response.data.message);
+      if (response.ok) {
+        toast.success(data.message)
         setTimeout(() => {
-            window.location.reload();
-        }, 2000);
+          window.location.reload();
+        }, 1500);
+      } else {
+        toast.error(data.message || 'Something went wrong. Please try again.')
       }
     } catch (error) {
-      toast.error(error.response?.data.message)
-      return
+      const errorMessage = error.response?.data?.message || 'Something went wrong. Please try again.'
+      toast.error(errorMessage)
     }
   }
 

@@ -148,11 +148,14 @@ export const PostCardActions = ({ post, miniature }) => {
 
         {!miniature && (
           <div style={actionStyles}>
-            <Tooltip title="Contatar autor">
-              <IconButton aria-label="contact" onClick={handleContactClick}>
-                <ContactMailIcon />
-              </IconButton>
-            </Tooltip>
+            {console.log(post)}
+            {!post.is_own_post && !post.found_status && (
+              <Tooltip title="Contatar autor">
+                <IconButton aria-label="contact" onClick={handleContactClick}>
+                  <ContactMailIcon />
+                </IconButton>
+              </Tooltip>
+            )}
             <Tooltip title="Comentar">
               <IconButton aria-label="comment" onClick={() => setCommentsOpen((prev) => !prev)}>
                 <ChatIcon />

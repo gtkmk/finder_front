@@ -10,8 +10,7 @@ const PostActionsMenu = ({ post }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const { handleDeletePost } = useDeletePostHandler();
-  const foundStatus = post.found_status ? 0 : 1;
-  const { handleFound } = useFoundStatusHandler(post.post_id, foundStatus);
+  const { handleFound } = useFoundStatusHandler(post.post_id);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
