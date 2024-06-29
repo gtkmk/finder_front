@@ -14,7 +14,7 @@ export const useSignInHandler = () => {
     const password = formData.get('password')
 
     try {
-      const response = await fetch(`http://localhost:8089/signin`, {
+      const response = await fetch(`http://34.125.28.161:8089/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
