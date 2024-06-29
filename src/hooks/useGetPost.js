@@ -17,6 +17,7 @@ export const useGetPosts = ({ userId, postId, friends, isOnwProfile }) => {
         reward: null,
         animalType: null,
         animalSize: null,
+        location: null,
     });
 
     const fetchPostsData = async () => {
@@ -53,6 +54,10 @@ export const useGetPosts = ({ userId, postId, friends, isOnwProfile }) => {
 
             if (filters.animalSize) {
                 queryString += `&animal_size=${filters.animalSize}`;
+            }
+
+            if (filters.location) {
+                queryString += `&neighborhood=${filters.location}`;
             }
 
             const response = await api.get(queryString, {

@@ -30,6 +30,8 @@ export const PostCardComments = (post_id) => {
             authorNickname={comment.author_username}
             commentAuthorAvatar={comment.comment_author_avatar}
             createdAt={comment.created_at}
+            updatedAt={comment.updated_at}
+            isOwnComment={comment.is_own_comment}
             likes={comment.likes} 
             text={comment.text} 
           />

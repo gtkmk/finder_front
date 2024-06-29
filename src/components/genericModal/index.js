@@ -12,6 +12,9 @@ const customStyles = {
     borderRadius: '10px',
     boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.2)',
     backgroundColor: '#E4E4E3',
+    maxHeight: '90vh',
+    maxWidth: '90vw',
+    overflow: 'auto',
   },
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.6)',

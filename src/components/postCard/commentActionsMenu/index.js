@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import { Menu, MenuItem, IconButton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import GenericModal from '../../genericModal';
-import PostPatchModalContent from '../../genericModal/postPatchModalContent';
-import { useDeletePostHandler } from '@/hooks/useDeletePostHandler';
-import { useFoundStatusHandler } from '@/hooks/useFoundStatusHandler'; // Importe o hook
+import CommentPatchModalContent from '../../genericModal/commentPatchModalContent';
+import { useDeleteCommentHandler } from '@/hooks/useDeleteCommentHandler';
 
-const PostActionsMenu = ({ post }) => {
+const CommentActionsMenu = ({ commentId, text }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
-  const { handleDeletePost } = useDeletePostHandler();
-  const { handleFound } = useFoundStatusHandler(post.post_id);
+  const { handleDeleteComment } = useDeleteCommentHandler();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -29,8 +27,8 @@ const PostActionsMenu = ({ post }) => {
     setModalOpen(false);
   };
 
-  const handleDeletePostClick = async () => {
-    const deleted = await handleDeletePost(post.post_id);
+  const handleDeleteCommentClick = async () => {
+    const deleted = await handleDeleteComment(commentId);
     if (deleted) {
       handleClose();
     }
@@ -57,19 +55,16 @@ const PostActionsMenu = ({ post }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleFoundStatusClick}>
-            {post.found_status ? "Marcar como perdido" : "Marcar como encontrado"}
-        </MenuItem>
-        <MenuItem onClick={handleOpenModal}>Editar Publicação</MenuItem>
-        <MenuItem onClick={handleDeletePostClick}>Deletar Publicação</MenuItem>
+        <MenuItem onClick={handleOpenModal}>Editar Comentário</MenuItem>
+        <MenuItem onClick={handleDeleteCommentClick}>Deletar Comentário</MenuItem>
       </Menu>
       {isModalOpen && (
         <GenericModal isOpen={isModalOpen} onClose={handleCloseModal}>
-          <PostPatchModalContent postInfo={post} onClose={handleCloseModal} />
+          <CommentPatchModalContent commentId={commentId} text={text} onClose={handleCloseModal} />
         </GenericModal>
       )}
     </div>
   );
 };
 
-export default PostActionsMenu;
+export default CommentActionsMenu;
