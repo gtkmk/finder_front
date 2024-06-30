@@ -296,7 +296,6 @@ export default function Feed() {
         </Box>
         {isSearchActive && (
           <List style={{
-            backgroundColor: '#f9f9f9',
             borderRadius: '15px 15px 15px 15px',
           }}>
             {searchResults.map((user) => (
@@ -330,7 +329,7 @@ const SearchResultItem = ({ user }) => {
   };
 
   return (
-    <>
+    <div style={{ backgroundColor: '#f9f9f9'  }}>
         <ListItem 
           button 
           onClick={handleUserClick}
@@ -343,6 +342,6 @@ const SearchResultItem = ({ user }) => {
           </ListItemAvatar>
           <ListItemText primary={user.name} />
         </ListItem>
-    </>
+    </div>
   );
 };
