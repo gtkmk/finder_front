@@ -6,56 +6,40 @@ import { useHandleComments } from '@/hooks/useHandleComments';
 
 export const PostCardContent = ({ post, miniature }) => {
   const { comments, handleAddComment } = useHandleComments();
-  const [imageHeights, setImageHeights] = useState([]);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1000);
-  const imageSize = window.innerWidth >= 468 ? '468px' : '100%';
-
-  const imageStyle = {
-    objectFit: 'cover',
-    width: imageSize,
-    height: imageSize,
-    maxWidth: '100%',
-    maxHeight: '100%',
-  };
+  const [imageHeight, setImageHeight] = useState(() => {
+    if (window.innerWidth > 1600) return "430px";
+    if (window.innerWidth > 1400) return "370px";
+    if (window.innerWidth > 1150) return "300px";
+    if (window.innerWidth > 1000) return "288px";
+    if (window.innerWidth > 1000) return "288px";
+    if (window.innerWidth > 650) return "200px";
+    if (window.innerWidth < 650) return "auto";
+    return 150; // default height for smaller screens
+  });
 
   useLayoutEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 1000);
+      if (window.innerWidth > 1600) {
+        setImageHeight("430px");
+      } else if (window.innerWidth > 1400) {
+        setImageHeight("370px");
+      } else if (window.innerWidth > 1150) {
+        setImageHeight("300px");
+      } else if (window.innerWidth > 1000) {
+        setImageHeight("288px");
+      } else if (window.innerWidth < 650) {
+        setImageHeight("auto");
+      } else {
+        setImageHeight("200px");
+      }
     };
 
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
-
-  useLayoutEffect(() => {
-    const calculateImageHeights = () => {
-      if (window.innerWidth < 650) return;
-
-      const gridItems = document.querySelectorAll(
-        '.post-card-grid > div > div:first-child img'
-      );
-      let currentRow = [];
-      let currentRowHeight = 0;
-      gridItems.forEach((item, index) => {
-        currentRow.push(item);
-        currentRowHeight = Math.max(currentRowHeight, item.offsetHeight);
-        if ((index + 1) % 2 === 0 || index === gridItems.length - 1) {
-          currentRow.forEach((img) => {
-            img.style.height = `${currentRowHeight}px`;
-          });
-          setImageHeights((prevHeights) => [...prevHeights, currentRowHeight]);
-          currentRow = [];
-          currentRowHeight = 0;
-        }
-      });
-    };
-
-    calculateImageHeights();
-    window.addEventListener('resize', calculateImageHeights);
-
-    return () => window.removeEventListener('resize', calculateImageHeights);
   }, []);
 
   const foundStatusOverlay = post.found_status ? (
@@ -78,6 +62,18 @@ export const PostCardContent = ({ post, miniature }) => {
     </Tooltip>
   ) : null;
 
+  const imageContainerStyle = {
+    width: '100%',
+    height: miniature ? `${imageHeight}` : 'auto', // Dynamic height based on screen width
+    position: 'relative',
+  };
+
+  const imageStyle = {
+    objectFit: 'fill', // Ensure images fill the container
+    width: '100%',
+    height: '100%',
+  };
+
   if (miniature) {
     return (
       <>
@@ -94,14 +90,14 @@ export const PostCardContent = ({ post, miniature }) => {
           }}
         >
           <Grid item xs={isSmallScreen ? 12 : 8} style={{ padding: '0' }}>
-            <div style={{ position: 'relative' }}>
+            <div style={imageContainerStyle}>
               <Base64Image
                 mediaUrl={post.post_media}
                 type="post"
                 style={imageStyle}
               />
+              {foundStatusOverlay}
             </div>
-            {foundStatusOverlay}
           </Grid>
           {!isSmallScreen && (
             <Grid item xs={4}>
@@ -146,7 +142,7 @@ export const PostCardContent = ({ post, miniature }) => {
         }}
       >
         {foundStatusOverlay}
-        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+        <div style={{ width: '100%', height: 'auto', position: 'relative' }}>
           <Base64Image mediaUrl={post.post_media} type="post" style={imageStyle} />
         </div>
       </CardContent>

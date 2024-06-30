@@ -1,20 +1,19 @@
-import React from 'react'
-import { useImageBase64 } from '@/hooks/useImageBase64'
-import { CardMedia, CircularProgress } from '@mui/material'
-import Avatar from '@mui/material/Avatar'
+import React from 'react';
+import { useImageBase64 } from '@/hooks/useImageBase64';
+import { Avatar, CardMedia, CircularProgress } from '@mui/material';
 
-export const Base64Image = ({ mediaUrl, type }) => {
-  const imageBase64 = useImageBase64(mediaUrl)
+export const Base64Image = ({ mediaUrl, type, style }) => {
+  const imageBase64 = useImageBase64(mediaUrl);
 
   if (type === 'post') {
     return (
-      <div>
+      <div style={{ width: '100%', height: '100%' }}>
         {imageBase64 ? (
           <CardMedia
             component="img"
-            height="auto"
             image={`data:image/jpeg;base64,${imageBase64}`}
             alt="Loading..."
+            style={style}
           />
         ) : (
           <CircularProgress color="secondary" />
