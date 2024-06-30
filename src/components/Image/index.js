@@ -84,4 +84,52 @@ export const Base64Image = ({ mediaUrl, type, style }) => {
       </div>
     )
   }
+
+  if (type === 'miniatureProfileAvatar') {
+    return (
+      <div>
+        {imageBase64 ? (
+          <Avatar
+            alt="Loading..."
+            src={`data:image/jpeg;base64,${imageBase64}`}
+            style={{
+              width: '10rem',
+              height: '10rem',
+              margin: '0 auto'
+            }} 
+          />
+        ) : (
+          <CircularProgress
+            color="secondary"
+            style={{ width: '15rem', height: '15rem', margin: '0 auto' }}
+          />
+        )}
+      </div>
+    )
+  }
+
+  if (type === 'miniatureProfileBanner') {
+    return (
+      <div>
+        {imageBase64 ? (
+            <CardMedia 
+              component="img"
+              height="100%"
+              width="100%"
+              image={`data:image/jpeg;base64,${imageBase64}`}
+              alt="Loading..."
+              style={{
+                objectFit: 'cover',
+                maxHeight: '300px'
+              }}
+          />
+        ) : (
+          <CircularProgress
+            color="secondary"
+            style={{ width: '15rem', height: '15rem', marginBottom: '8px' }}
+          />
+        )}
+      </div>
+    )
+  }
 }

@@ -9,30 +9,28 @@ export const PostCardContent = ({ post, miniature }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1000);
   const [imageHeight, setImageHeight] = useState(() => {
     if (window.innerWidth > 1600) return "430px";
-    if (window.innerWidth > 1400) return "370px";
-    if (window.innerWidth > 1150) return "300px";
-    if (window.innerWidth > 1000) return "288px";
-    if (window.innerWidth > 1000) return "288px";
-    if (window.innerWidth > 650) return "200px";
+    if (window.innerWidth > 1400) return "340px";
+    if (window.innerWidth > 1150) return "270px";
+    if (window.innerWidth > 1000) return "230px";
     if (window.innerWidth < 650) return "auto";
-    return 150; // default height for smaller screens
+    return "390px"; // default height for smaller screens
   });
 
   useLayoutEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 1000);
       if (window.innerWidth > 1600) {
-        setImageHeight("430px");
+        setImageHeight("390px");
       } else if (window.innerWidth > 1400) {
-        setImageHeight("370px");
+        setImageHeight("340px");
       } else if (window.innerWidth > 1150) {
-        setImageHeight("300px");
+        setImageHeight("270px");
       } else if (window.innerWidth > 1000) {
-        setImageHeight("288px");
+        setImageHeight("230px");
       } else if (window.innerWidth < 650) {
         setImageHeight("auto");
       } else {
-        setImageHeight("200px");
+        setImageHeight("390px");
       }
     };
 
@@ -63,7 +61,7 @@ export const PostCardContent = ({ post, miniature }) => {
   ) : null;
 
   const imageContainerStyle = {
-    width: '100%',
+    width: miniature ? `auto` : '100%',
     height: miniature ? `${imageHeight}` : 'auto', // Dynamic height based on screen width
     position: 'relative',
   };

@@ -153,34 +153,28 @@ export default function Profile({
           ) : (
             <>
               <Grid item xs={12} style={{ backgroundColor: 'transparent', maxHeight: '32rem', padding: '0' }}>
-                <CardMedia 
-                  component="img"
-                  height="100%"
-                  width="100%"
-                  image="/banner.png"
-                  alt="Loading..."
-                  style={{ objectFit: 'cover', maxHeight: '300px' }}
-                />
+                  <Base64Image
+                    mediaUrl={profileBanner}
+                    type="miniatureProfileBanner"
+                  />
                 <div style={{ position: 'relative', top: '-6rem', textAlign: 'center' }}>
-                  <Avatar alt="User Avatar" src="/avatar.png" style={{ width: '10rem', height: '10rem', margin: '0 auto' }} />
-                  <Button
-                    variant="contained"
-                    color={isFollowing ? 'secondary' : 'primary'}
-                    style={{ position: 'absolute', bottom: '7rem', margin: '0', padding: '6px' }}
-                    startIcon={
-                        isFollowing ? (
-                          <CheckIcon />
-                        ) : (
-                          <AddIcon />
-                        )
-                    }
-                  >
-                    {isFollowing ? 'Seguindo' : 'Seguir'}
-                  </Button>
+                  <Base64Image
+                    mediaUrl={profilePicture}
+                    type="miniatureProfileAvatar"
+                  />
+                    {!isOwnProfile && (
+                      <Button
+                        variant="contained"
+                        color={followStatus ? 'secondary' : 'primary'}
+                        style={{ position: 'absolute', bottom: '0', right: '0' }}
+                        startIcon={followStatus ? <CheckIcon /> : <AddIcon />}
+                        onClick={handleFollowClick}
+                      >
+                        {followStatus ? 'Seguindo' : 'Seguir'}
+                      </Button>
+                    )}
                   <div style={{ marginTop: '8px' }}>
                     <span style={{ fontWeight: 'bold', fontSize: '16px' }}>{userName}</span>
-                    <br />
-                    <span>{name}</span>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '8px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', marginRight: '16px' }}>
                         <IconButton aria-label="followers" color="primary">
