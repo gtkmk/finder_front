@@ -27,7 +27,7 @@ export const useSignInHandler = () => {
       })
 
       const data = await response.json()
-
+      console.log(data)
       if (response.ok) {
         toast.success(data.message)
         setTimeout(timeOutCallback, 1000)
