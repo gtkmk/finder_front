@@ -1,5 +1,6 @@
 import { CardActions, IconButton, Typography, Modal, Box, Button } from '@mui/material';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import SendIcon from '@mui/icons-material/Send';
 import ChatIcon from '@mui/icons-material/Chat';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
@@ -26,6 +27,7 @@ const bounce = keyframes`
 export const PostCardActions = ({ post, miniature }) => {
   const { setCommentsOpen } = useContext(PostCardContext);
   const [likesCount, setLikesCount] = useState(post.likes);
+  const [liked, setLiked] = useState(post.liked); // Initial liked state
   const { handleLike } = useLikeHandler(post.post_id, 'post', likesCount);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [contactModalOpen, setContactModalOpen] = useState(false);
@@ -34,6 +36,7 @@ export const PostCardActions = ({ post, miniature }) => {
   const handleLikeClick = async () => {
     const newLikesCount = await handleLike();
     setLikesCount(newLikesCount);
+    setLiked(!liked); // Toggle the liked state
   };
 
   const handleShareClick = () => {
@@ -117,10 +120,9 @@ export const PostCardActions = ({ post, miniature }) => {
     ? "Você encontrou alguma informação relevante sobre o animal perdido? Entre em contato com o dono através do WhatsApp para ajudar a reunir o animal com seu dono."
     : "Você é o dono do animal encontrado ou está interessado em adotá-lo? Entre em contato com o autor da postagem através do WhatsApp para mais informações.";
 
-
-    const whatsappContactMessage = post.post_lostFound === 'lost'
+  const whatsappContactMessage = post.post_lostFound === 'lost'
     ? "Olá! Vi sua postagem na plataforma Fujões sobre seu animal perdido. Tenho algumas informações que podem ser úteis para encontrá-lo."
-    : "Olá! Vi sua postagem na plataforma Fujões sobre o animal encontrado. Acredito que eu seja o dono ou estou interessado em adotá-lo.";  
+    : "Olá! Vi sua postagem na plataforma Fujões sobre o animal encontrado. Acredito que eu seja o dono ou estou interessado em adotá-lo.";
 
   return (
     <>
@@ -129,7 +131,11 @@ export const PostCardActions = ({ post, miniature }) => {
           <div style={{ ...actionStyles, marginRight: miniature ? '0' : '1em' }}>
             <Tooltip title="Curtir">
               <IconButton aria-label="like" onClick={handleLikeClick}>
-                <ThumbUpAltIcon />
+                {liked ? (
+                  <ThumbUpAltIcon color="primary" />
+                ) : (
+                  <ThumbUpAltOutlinedIcon />
+                )}
               </IconButton>
             </Tooltip>
             <Typography variant="body2" color="text.secondary">
