@@ -1,5 +1,6 @@
 import api from '@/services/api'
 import { useEffect } from 'react'
+import { json } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 export const useSignInHandler = () => {
@@ -41,9 +42,10 @@ export const useSignInHandler = () => {
 
     try {
       const response = await axios.post('http://34.125.28.161:8089/signin', {
-        email,
-        password
-      }, {
+        body: JSON.stringify({
+          email,
+          password,
+        }),
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -53,7 +55,7 @@ export const useSignInHandler = () => {
       console.log("-- response --")
       console.log(response)
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         toast.success(response.data.message);
         setTimeout(() => {
           location.reload(true);
@@ -64,7 +66,6 @@ export const useSignInHandler = () => {
       toast.error(error.response?.data.message);
     }
   };
-  }
 
   useEffect(() => {
     return () => {
