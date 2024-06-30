@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}`,
+  baseURL: `http://localhost:8089`,
 })
 
 api.interceptors.response.use(undefined, function onResponseError(error) {

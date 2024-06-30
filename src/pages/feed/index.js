@@ -326,7 +326,7 @@ const SearchResultItem = ({ user }) => {
   const router = useRouter();
 
   const handleUserClick = () => {
-    router.push(`http://localhost:3000/profile?userId=${user.id}`);
+    router.push(`http://localhost/profile?userId=${user.id}`);
   };
 
   return (
