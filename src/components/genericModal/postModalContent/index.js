@@ -121,7 +121,7 @@ const PostModalContent = ({ onClose }) => {
     formDataToSend.append('animal_size', formData.animal_size);
 
     try {
-      const response = await axios.post('http://34.125.156.33:8089/post', formDataToSend, {
+      const response = await axios.post('http://146.148.40.85:8089/post', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

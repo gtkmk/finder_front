@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: `http://34.125.156.33:8089`,
+  baseURL: `http://146.148.40.85:8089`,
 })
 
 api.interceptors.response.use(undefined, function onResponseError(error) {

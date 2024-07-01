@@ -15,7 +15,7 @@ export const useSignInHandler = () => {
     const password = formData.get('password')
 
     // try {
-    //   const response = await fetch(`http://34.125.156.33:8089/signin`, {
+    //   const response = await fetch(`http://146.148.40.85:8089/signin`, {
     //     method: 'POST',
     //     headers: {
     //       'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ export const useSignInHandler = () => {
     // }
 
     try {
-      const response = await axios.post('http://34.125.156.33:8089/signin', {
+      const response = await axios.post('http://146.148.40.85:8089/signin', {
         email,
         password,
       }, {
@@ -65,7 +65,7 @@ export const useSignInHandler = () => {
     }
 
     // try {
-    //   const response = await axios.post('http://34.125.156.33:8089/signin', {
+    //   const response = await axios.post('http://146.148.40.85:8089/signin', {
     //     body: JSON.stringify({
     //       email,
     //       password,
