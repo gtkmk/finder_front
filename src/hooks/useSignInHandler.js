@@ -36,6 +36,7 @@ export const useSignInHandler = () => {
         toast.error(data.message || 'Something went wrong. Please try again.')
       }
     } catch (error) {
+      console.log(error)
       const errorMessage = error.response?.data?.message || 'Something went wrong. Please try again.'
       toast.error(errorMessage)
     }
