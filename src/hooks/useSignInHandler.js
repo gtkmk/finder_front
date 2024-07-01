@@ -14,6 +14,8 @@ export const useSignInHandler = () => {
     const email = formData.get('email')
     const password = formData.get('password')
 
+    console.log("Aqui estamos")
+
     try {
       const response = await fetch(`http://146.148.40.85:8089/signin`, {
         method: 'POST',
@@ -40,6 +42,8 @@ export const useSignInHandler = () => {
       const errorMessage = error.response?.data?.message || 'Something went wrong. Please try again.'
       toast.error(errorMessage)
     }
+
+    console.log("bruh")
 
     // try {
     //   const response = await axios.post('http://146.148.40.85:8089/signin', {
