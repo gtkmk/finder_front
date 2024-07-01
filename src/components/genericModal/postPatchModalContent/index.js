@@ -98,7 +98,7 @@ const PostPatchModalContent = ({ postInfo, onClose }) => {
         formDataToSend.append('animal_size', formData.animal_size);
 
         try {
-            const response = await axios.patch(`http://34.125.28.161:8089/post?post-id=${postInfo.post_id}`, formDataToSend, {
+            const response = await axios.patch(`http://34.125.156.33:8089/post?post-id=${postInfo.post_id}`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

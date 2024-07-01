@@ -17,7 +17,7 @@ export const CommentBox = ({ post_id, onCommentSubmit }) => {
       formData.append('text', comment);
       formData.append('post_id', post_id);
 
-      const response = await axios.post('http://34.125.28.161:8089/comment', formData, {
+      const response = await axios.post('http://34.125.156.33:8089/comment', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
