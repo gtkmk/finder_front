@@ -67,7 +67,7 @@ export const useSignUpHandler = () => {
         }, 3000)
       }
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error("Erro ao registrar. Por favor, utilize uma senha mais complexa.")
     }
   }
 
